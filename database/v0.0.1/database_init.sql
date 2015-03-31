@@ -16,6 +16,7 @@ GO
 
 CREATE TABLE [genie].[Feature](
 	[FeatureId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [VARCHAR](50) NOT NULL,
 	[Description] [varchar](max) NULL,
 	[IsEnabled] [bit] NOT NULL,
 	[StartTime] [datetime] NULL,
@@ -50,3 +51,16 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Features that can be turned on or off.' , @level0type=N'SCHEMA',@level0name=N'genie', @level1type=N'TABLE',@level1name=N'Feature'
 GO
 
+
+USE [master]
+GO
+CREATE LOGIN [FeatureGenieUser] WITH PASSWORD=N'password', DEFAULT_DATABASE=[FeatureGenie], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+GO
+
+USE [FeatureGenie]
+GO
+CREATE USER [FeatureGenieUser] FOR LOGIN [FeatureGenieUser] WITH DEFAULT_SCHEMA=[genie]
+GO
+
+GRANT INSERT ON SCHEMA :: genie TO FeatureGenieUser;
+GRANT SELECT ON SCHEMA :: genie TO FeatureGenieUser;
