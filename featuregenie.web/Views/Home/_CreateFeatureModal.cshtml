@@ -1,0 +1,59 @@
+﻿<div class="modal fade" id="createFeatureModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Create Feature</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form id="newFeatureForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="Name" class="control-label col-md-3">Feature Name</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="Name" id="Name" class="form-control"/>                                    
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Description" class="control-label col-md-3">Description</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="Description" id="Description" class="form-control"/>
+                                    <div class="checkbox">
+                                        <input type="checkbox" checked="checked" name="IsEnabled" id="IsEnabled" /> Is Enabled
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="StartTime" class="control-label col-md-3">Start Time</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="StartTime" id="StartTime" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="EndTime" class="control-label col-md-3">End Time</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="EndTime" id="EndTime" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Ratio" class="control-label col-md-3">Ratio</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="Ratio" id="Ratio" class="form-control" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveFeatureButton">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

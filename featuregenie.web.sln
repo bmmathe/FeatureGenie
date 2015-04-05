@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "featuregenie.web", "featuregenie.web\featuregenie.web.csproj", "{890E39B4-8C38-4D1C-893C-E1C2953A1AB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "featuregenie.client", "..\featuregenie.client\featuregenie.client.csproj", "{4A5336A7-D84A-48F6-BAEA-6E24B3CB76D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "featuregenie.client", "featuregenie.client\featuregenie.client.csproj", "{4A5336A7-D84A-48F6-BAEA-6E24B3CB76D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

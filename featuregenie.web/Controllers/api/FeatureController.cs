@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Web.Http;
-using Dapper;
+﻿using System.Web.Http;
 using featuregenie.web.Data;
 using featuregenie.web.Models;
 
@@ -9,12 +7,12 @@ namespace featuregenie.web.Controllers.api
     [RoutePrefix("api/Feature")]
     public class FeatureController : ApiController
     {
-        private readonly FeaturesData _repository;
+        private readonly FeaturesRepository _repository;
 
         public FeatureController()
         {
             // inject
-            _repository = new FeaturesData();
+            _repository = new FeaturesRepository();
         }
 
         public object Get(int id)

@@ -1,0 +1,11 @@
+﻿@model featuregenie.web.Models.HomeViewModel    
+@using (Ajax.BeginForm("_Features", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "features" }))
+{
+    <legend>Select Application</legend>    
+    @Html.DropDownListFor(x => x.SelectedApplicationId, Model.Applications.Select(x => new SelectListItem() { Text = x.Name, Value = x.ApplicationId.ToString() }), 
+    new
+    {
+        @class="form-control", id="selectApplication"
+    })    
+    <input id="selectApplicationSubmit" type="submit" value="Submit" class="visibility: hidden" />
+}

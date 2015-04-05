@@ -5,11 +5,11 @@ using featuregenie.web.Models;
 
 namespace featuregenie.web.Data
 {
-    public class FeaturesData : BaseRepository
+    public class FeaturesRepository : BaseRepository
     {
-        public List<Feature> GetAll()
+        public List<Feature> GetAll(int applicationId)
         {
-            return Db.Query<Feature>(@"SELECT * FROM genie.Feature").ToList();
+            return Db.Query<Feature>(@"SELECT * FROM genie.Feature WHERE ApplicationId = @ApplicationId", new{ApplicationId=applicationId}).ToList();
         }
         public Feature Get(int id)
         {

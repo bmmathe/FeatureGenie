@@ -1,3 +1,5 @@
+USE FeatureGenieDB
+GO	
 
 /****** Object:  Schema [genie]    Script Date: 3/14/2015 8:43:50 PM ******/
 CREATE SCHEMA [genie]
@@ -14,6 +16,18 @@ GO
 SET ANSI_PADDING ON
 GO
 
+CREATE TABLE [genie].[Application](
+	[ApplicationId] [INT] IDENTITY(1,1) NOT NULL,
+	[Name] [VARCHAR](50) NOT NULL,
+	[Description] [VARCHAR](MAX) NULL,
+ CONSTRAINT [PK_Application] PRIMARY KEY CLUSTERED 
+(
+	[ApplicationId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
 CREATE TABLE [genie].[Feature](
 	[FeatureId] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [VARCHAR](50) NOT NULL,
@@ -22,12 +36,25 @@ CREATE TABLE [genie].[Feature](
 	[StartTime] [datetime] NULL,
 	[EndTime] [datetime] NULL,
 	[Ratio] [int] NULL,
+	[ApplicationId] [INT] NOT NULL,
  CONSTRAINT [PK_Feature] PRIMARY KEY CLUSTERED 
 (
 	[FeatureId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
+GO
+
+ALTER TABLE genie.Feature ADD CONSTRAINT
+	FK_Feature_Application FOREIGN KEY
+	(
+	FeatureId
+	) REFERENCES genie.Application
+	(
+	ApplicationId
+	) ON UPDATE  NO ACTION 
+	 ON DELETE  NO ACTION 
+	
 GO
 
 SET ANSI_PADDING OFF
@@ -54,10 +81,10 @@ GO
 
 USE [master]
 GO
-CREATE LOGIN [FeatureGenieUser] WITH PASSWORD=N'password', DEFAULT_DATABASE=[FeatureGenie], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+CREATE LOGIN [FeatureGenieUser] WITH PASSWORD=N'password', DEFAULT_DATABASE=[FeatureGenieDB], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
 GO
 
-USE [FeatureGenie]
+USE [FeatureGenieDB]
 GO
 CREATE USER [FeatureGenieUser] FOR LOGIN [FeatureGenieUser] WITH DEFAULT_SCHEMA=[genie]
 GO

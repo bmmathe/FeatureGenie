@@ -6,6 +6,8 @@
     <title>Feature Genie</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,18 +22,19 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Create Feature", "Create", "Home")</li>                    
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#createApplicationModal">
+                            Create Application
+                        </a>
+                    </li>                    
                 </ul>
                 <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
             </div>
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()        
-    </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")    
+        @RenderBody()
+    </div>     
     @RenderSection("scripts", required: false)
-</body>
+    </body>
 </html>

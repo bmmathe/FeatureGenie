@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace featuregenie.web.Models
+namespace featuregenie.client
 {
     public class Feature
     {
@@ -11,6 +11,5 @@ namespace featuregenie.web.Models
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public decimal? Ratio { get; set; }
-        public int ApplicationId { get; set; }
     }
 }
