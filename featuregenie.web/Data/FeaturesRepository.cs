@@ -18,7 +18,7 @@ namespace featuregenie.web.Data
 
         public void Create(Feature feature)
         {
-            Db.Execute(@"INSERT INTO genie.Feature (Name, Description, IsEnabled, StartTime, EndTime, Ratio) VALUES (@Name, @Description, @IsEnabled, @StartTime, @EndTime, @Ratio)", feature);
+            Db.Execute(@"INSERT INTO genie.Feature (ApplicationId, Name, Description, IsEnabled, StartTime, EndTime, Ratio) VALUES (@ApplicationId, @Name, @Description, @IsEnabled, @StartTime, @EndTime, @Ratio)", feature);
         }
 
         public void Update(Feature feature)

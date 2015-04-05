@@ -26,6 +26,8 @@
         });
 
         $("#createFeatureModal").on("shown.bs.modal", function () {
+            var selectedApplicationId = $("#selectApplication").val();
+            $("#ApplicationId").val(selectedApplicationId);
             $("#Name").focus();
         });
 

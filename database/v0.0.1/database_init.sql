@@ -45,16 +45,8 @@ CREATE TABLE [genie].[Feature](
 
 GO
 
-ALTER TABLE genie.Feature ADD CONSTRAINT
-	FK_Feature_Application FOREIGN KEY
-	(
-	FeatureId
-	) REFERENCES genie.Application
-	(
-	ApplicationId
-	) ON UPDATE  NO ACTION 
-	 ON DELETE  NO ACTION 
-	
+ALTER TABLE [genie].[Feature]  WITH CHECK ADD  CONSTRAINT [FK_Feature_Application] FOREIGN KEY([ApplicationId])
+REFERENCES [genie].[Application] ([ApplicationId])
 GO
 
 SET ANSI_PADDING OFF

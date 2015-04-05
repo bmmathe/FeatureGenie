@@ -29,7 +29,7 @@ namespace featuregenie.web.Controllers
         public ActionResult CreateFeature(Feature feature)
         {
             _featureRepository.Create(feature);
-            return RedirectToAction("Index");
+            return PartialView("_Features", _featureRepository.GetAll(feature.ApplicationId));
         }
 
         [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
