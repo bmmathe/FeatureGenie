@@ -1,4 +1,5 @@
 using System;
+using featuregenie.web.Data;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -38,6 +39,7 @@ namespace featuregenie.web.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IUserRepository, FakeUserRepository>();
+            container.RegisterType<IConfigurationRepository, ConfigurationRepository>();
         }
     }
 }

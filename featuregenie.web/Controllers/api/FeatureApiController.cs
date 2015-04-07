@@ -5,11 +5,11 @@ using featuregenie.web.Models;
 namespace featuregenie.web.Controllers.api
 {
     [RoutePrefix("api/Feature")]
-    public class FeatureController : ApiController
+    public class FeatureApiController : ApiController
     {
         private readonly FeaturesRepository _repository;
 
-        public FeatureController()
+        public FeatureApiController()
         {
             // inject
             _repository = new FeaturesRepository();
@@ -33,6 +33,17 @@ namespace featuregenie.web.Controllers.api
         public void Delete(int id)
         {
             _repository.Delete(id);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_repository != null)
+                {
+                    _repository.Dispose();
+                }
+            }
         }
     }
 }

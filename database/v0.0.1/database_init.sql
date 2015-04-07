@@ -83,3 +83,121 @@ GO
 
 GRANT INSERT ON SCHEMA :: genie TO FeatureGenieUser;
 GRANT SELECT ON SCHEMA :: genie TO FeatureGenieUser;
+
+USE [FeatureGenieDB]
+GO
+
+/****** Object:  Table [genie].[ValueType]    Script Date: 4/5/2015 10:21:21 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [genie].[ValueType](
+	[ValueTypeId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varbinary](50) NULL,
+ CONSTRAINT [PK_ValueType] PRIMARY KEY CLUSTERED 
+(
+	[ValueTypeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Describes the value type for a configuration setting.  Types can be any primitive type like int, double, string, etc or a custom regex value like phone number or email address, or it can be a fixed selection based on a list of values.' , @level0type=N'SCHEMA',@level0name=N'genie', @level1type=N'TABLE',@level1name=N'ValueType'
+GO
+
+USE [FeatureGenieDB]
+GO
+
+/****** Object:  Table [genie].[Configuration]    Script Date: 4/5/2015 10:22:43 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [genie].[Configuration](
+	[ConfigurationId] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationId] [int] NOT NULL,
+	[ValueTypeId] [int] NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Value] [varchar](max) NOT NULL,
+ CONSTRAINT [PK_Configuration] PRIMARY KEY CLUSTERED 
+(
+	[ConfigurationId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [genie].[Configuration]  WITH CHECK ADD  CONSTRAINT [FK_Configuration_Application] FOREIGN KEY([ApplicationId])
+REFERENCES [genie].[Application] ([ApplicationId])
+GO
+
+ALTER TABLE [genie].[Configuration] CHECK CONSTRAINT [FK_Configuration_Application]
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Application configuration settings' , @level0type=N'SCHEMA',@level0name=N'genie', @level1type=N'TABLE',@level1name=N'Configuration'
+GO
+
+USE [FeatureGenieDB]
+GO
+
+/****** Object:  Table [genie].[SelectionType]    Script Date: 4/5/2015 10:34:23 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [genie].[SelectionType](
+	[SelectionTypeId] [int] IDENTITY(1,1) NOT NULL,
+	[ApplicationId] [int] NOT NULL,
+	[ConfigurationId] [int] NOT NULL,
+	[SelectionValue] [varchar](50) NOT NULL,
+	[SortOrder] [int] NULL,
+ CONSTRAINT [PK_SelectionType] PRIMARY KEY CLUSTERED 
+(
+	[SelectionTypeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [genie].[SelectionType]  WITH CHECK ADD  CONSTRAINT [FK_SelectionType_Application] FOREIGN KEY([ApplicationId])
+REFERENCES [genie].[Application] ([ApplicationId])
+GO
+
+ALTER TABLE [genie].[SelectionType] CHECK CONSTRAINT [FK_SelectionType_Application]
+GO
+
+ALTER TABLE [genie].[SelectionType]  WITH CHECK ADD  CONSTRAINT [FK_SelectionType_Configuration] FOREIGN KEY([ConfigurationId])
+REFERENCES [genie].[Configuration] ([ConfigurationId])
+GO
+
+ALTER TABLE [genie].[SelectionType] CHECK CONSTRAINT [FK_SelectionType_Configuration]
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Represents an enumeration for a given application configuration setting.' , @level0type=N'SCHEMA',@level0name=N'genie', @level1type=N'TABLE',@level1name=N'SelectionType'
+GO
+
