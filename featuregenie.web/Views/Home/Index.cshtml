@@ -51,6 +51,15 @@
 <div class="row" id="applications">
     @Html.Partial("_Applications", Model)
 </div>
-<div class="row" id="features"></div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="features" class="active"><a href="#features" aria-controls="home" role="tab" data-toggle="tab">Features</a></li>
+        <li role="configuration"><a href="#configuration" aria-controls="home" role="tab" data-toggle="tab">Configuration</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="features"></div>
+        <div role="tabpanel" class="tab-pane" id="configuration"></div>        
+    </div>
+
 @Html.Partial("_CreateApplicationModal")
 @Html.Partial("_CreateFeatureModal")

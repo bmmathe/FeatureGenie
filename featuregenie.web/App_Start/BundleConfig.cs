@@ -26,6 +26,7 @@ namespace featuregenie.web
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-theme.css",
+                      "~/Content/font-awesome.min.css",
                       "~/Content/site.css"));
         }
     }

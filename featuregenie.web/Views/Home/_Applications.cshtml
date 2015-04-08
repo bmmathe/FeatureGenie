@@ -1,11 +1,18 @@
-﻿@model featuregenie.web.Models.HomeViewModel    
-@using (Ajax.BeginForm("_Features", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "features" }))
-{
-    <legend>Select Application</legend>    
-    @Html.DropDownListFor(x => x.SelectedApplicationId, Model.Applications.Select(x => new SelectListItem() { Text = x.Name, Value = x.ApplicationId.ToString() }), 
-    new
+﻿@model featuregenie.web.Models.HomeViewModel
+<div class="col-lg-12">    
+    @using (Ajax.BeginForm("_Features", null, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "features" }, new {@class="form-horizontal"}))
     {
-        @class="form-control", id="selectApplication"
-    })    
-    <input id="selectApplicationSubmit" type="submit" value="Submit" class="visibility: hidden" />
-}
+        <div class="form-group">
+            <label for="selectApplication" class=" col-lg-2 control-label">Select Application</label>
+            <div class="col-lg-10">
+                @Html.DropDownListFor(x => x.SelectedApplicationId, Model.Applications.Select(x => new SelectListItem() {Text = x.Name, Value = x.ApplicationId.ToString()}),
+                    new
+                    {
+                        @class = "form-control",
+                        id = "selectApplication"
+                    })
+            </div>
+        </div>      
+        <input id="selectApplicationSubmit" type="submit" value="Submit" class="visibility: hidden" />
+    }
+</div>

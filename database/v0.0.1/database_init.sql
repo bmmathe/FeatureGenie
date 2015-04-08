@@ -83,7 +83,7 @@ GO
 
 GRANT INSERT ON SCHEMA :: genie TO FeatureGenieUser;
 GRANT SELECT ON SCHEMA :: genie TO FeatureGenieUser;
-
+GRANT DELETE ON SCHEMA :: genie TO FeatureGenieUser;
 USE [FeatureGenieDB]
 GO
 
