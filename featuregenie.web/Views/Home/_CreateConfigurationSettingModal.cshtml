@@ -1,0 +1,36 @@
+﻿<div class="modal fade" id="createConfigurationSettingModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Create Configuration Setting</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form id="newConfigurationSettingForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="Name" class="control-label col-md-3">Setting Name</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="Name" id="Name" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Value" class="control-label col-md-3">Value</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="Value" id="Value" class="form-control" />                                    
+                                </div>
+                            </div>
+                            <input type="hidden" id="ApplicationId" name="ApplicationId" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveConfigurationSettingButton">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

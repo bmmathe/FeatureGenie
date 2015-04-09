@@ -44,7 +44,28 @@
                     $("#createFeatureModal").modal("hide");
                 }
             });
-        });        
+        });
+
+        $("#createConfigurationSettingModal").on("shown.bs.modal", function () {
+            var selectedApplicationId = $("#selectApplication").val();
+            $("#ApplicationId").val(selectedApplicationId);
+            $("#Name").focus();
+        });
+
+        $("#saveConfigurationSettingButton").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Home/CreateConfigurationSetting",
+                data: $("#newConfigurationSettingForm").serialize(),
+                success: function (features) {
+                    $("#createConfigurationSettingModal").modal("hide");
+                    $("#configuration").html(features);
+                },
+                error: function () {
+                    $("#createConfiguationSettingModal").modal("hide");
+                }
+            });
+        });
     </script>
 }
 
