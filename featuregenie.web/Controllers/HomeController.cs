@@ -61,9 +61,9 @@ namespace featuregenie.web.Controllers
         }
 
         [HttpPost]
-        public ActionResult _Features(HomeViewModel model)
+        public ActionResult _Features(int id)
         {
-            return PartialView(_featureRepository.GetAll(model.SelectedApplicationId));
+            return PartialView(_featureRepository.GetAll(id));
         }
 
         public ActionResult _CreateApplicationModal()

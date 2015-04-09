@@ -1,5 +1,12 @@
-USE FeatureGenieDB
-GO	
+/* Uncomment if you want to create the SQL Server login
+USE [master]
+GO
+CREATE LOGIN [FeatureGenieUser] WITH PASSWORD=N'password', DEFAULT_DATABASE=[FeatureGenieDB], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+GO
+
+CREATE USER [FeatureGenieUser] FOR LOGIN [FeatureGenieUser] WITH DEFAULT_SCHEMA=[genie]
+GO
+*/
 
 /****** Object:  Schema [genie]    Script Date: 3/14/2015 8:43:50 PM ******/
 CREATE SCHEMA [genie]
@@ -71,21 +78,11 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Features that 
 GO
 
 
-USE [master]
-GO
-CREATE LOGIN [FeatureGenieUser] WITH PASSWORD=N'password', DEFAULT_DATABASE=[FeatureGenieDB], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
-GO
 
-USE [FeatureGenieDB]
-GO
-CREATE USER [FeatureGenieUser] FOR LOGIN [FeatureGenieUser] WITH DEFAULT_SCHEMA=[genie]
-GO
 
 GRANT INSERT ON SCHEMA :: genie TO FeatureGenieUser;
 GRANT SELECT ON SCHEMA :: genie TO FeatureGenieUser;
 GRANT DELETE ON SCHEMA :: genie TO FeatureGenieUser;
-USE [FeatureGenieDB]
-GO
 
 /****** Object:  Table [genie].[ValueType]    Script Date: 4/5/2015 10:21:21 PM ******/
 SET ANSI_NULLS ON
@@ -112,9 +109,6 @@ SET ANSI_PADDING OFF
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Describes the value type for a configuration setting.  Types can be any primitive type like int, double, string, etc or a custom regex value like phone number or email address, or it can be a fixed selection based on a list of values.' , @level0type=N'SCHEMA',@level0name=N'genie', @level1type=N'TABLE',@level1name=N'ValueType'
-GO
-
-USE [FeatureGenieDB]
 GO
 
 /****** Object:  Table [genie].[Configuration]    Script Date: 4/5/2015 10:22:43 PM ******/
@@ -152,9 +146,6 @@ ALTER TABLE [genie].[Configuration] CHECK CONSTRAINT [FK_Configuration_Applicati
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Application configuration settings' , @level0type=N'SCHEMA',@level0name=N'genie', @level1type=N'TABLE',@level1name=N'Configuration'
-GO
-
-USE [FeatureGenieDB]
 GO
 
 /****** Object:  Table [genie].[SelectionType]    Script Date: 4/5/2015 10:34:23 PM ******/

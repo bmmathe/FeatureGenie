@@ -233,12 +233,11 @@
     <Content Include="Web.QA.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Home\_ConfigurationSettings.cshtml" />
+    <Content Include="Views\Configuration\_ConfigurationSettings.cshtml" />
     <Content Include="Views\Home\_CreateConfigurationSettingModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

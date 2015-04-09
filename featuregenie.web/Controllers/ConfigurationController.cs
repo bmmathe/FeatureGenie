@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using featuregenie.web.Data;
+using featuregenie.web.Models;
 
 namespace featuregenie.web.Controllers
 {
@@ -20,6 +21,26 @@ namespace featuregenie.web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult _ConfigurationSettings(int id)
+        {
+            return PartialView(_configurationRepository.GetAll(id));
+        }
+
+        [HttpPost]
+        public ActionResult Create(ConfigurationSetting setting)
+        {
+            _configurationRepository.Create(setting);
+            return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(setting.ApplicationId));
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var applicationId = _configurationRepository.GetApplicationId(id);
+            _configurationRepository.Delete(id);
+            return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(applicationId));
         }
 
         protected override void Dispose(bool disposing)

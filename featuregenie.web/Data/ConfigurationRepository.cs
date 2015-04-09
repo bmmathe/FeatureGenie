@@ -30,5 +30,13 @@ namespace featuregenie.web.Data
         {
             Db.Execute(@"DELETE FROM genie.[Configuration] WHERE ConfigurationId = @ConfigurationId", new { ConfigurationId = id });
         }
+
+        public int GetApplicationId(int configurationSettingId)
+        {
+            return
+                Db.Query<int>(
+                    @"SELECT ApplicationId FROM genie.ConfigurationSetting WHERE ConfigurationSettingId = @ConfigurationSettingId",
+                    new {ConfigurationSettingId = configurationSettingId}).First();
+        }
     }
 }
