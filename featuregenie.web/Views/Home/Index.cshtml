@@ -67,12 +67,17 @@
                 success: function (configuration) {
                     $("#createConfigurationSettingModal").modal("hide");
                     $("#configuration").html(configuration);
+                    bindDeleteConfigurationSettingButtons();
                 },
                 error: function () {
                     $("#createConfiguationSettingModal").modal("hide");
                 }
             });
         });
+
+        function bindDeleteConfigurationSettingButtons() {
+            
+        }
     </script>
 }
 

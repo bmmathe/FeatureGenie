@@ -23,10 +23,8 @@
                         @Html.DisplayFor(modelItem => item.Value)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ConfigurationId }, new { @class = "btn" })
-                    </td>
-                    <td>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ConfigurationId }, new { @class = "btn btn-danger" })
+                        <a href="#" class="btn" data-action="edit-configuration-setting" data-configuration-id="@item.ConfigurationId">Edit</a>&nbsp;|&nbsp;
+                        <a href="#" class="btn btn-danger" data-action="delete-configuration-setting" data-configuration-id="@item.ConfigurationId">Delete</a>
                     </td>
                 </tr>
             }
