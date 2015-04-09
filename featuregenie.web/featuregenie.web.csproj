@@ -150,6 +150,7 @@
     <Compile Include="AuthorizeUser.cs" />
     <Compile Include="Controllers\api\FeatureApiController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\FeatureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\ApplicationsRepository.cs" />
     <Compile Include="Data\BaseRepository.cs" />
@@ -238,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Feature\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

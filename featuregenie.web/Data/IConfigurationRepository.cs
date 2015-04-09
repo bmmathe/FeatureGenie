@@ -11,6 +11,6 @@ namespace featuregenie.web.Data
         void Create(ConfigurationSetting setting);
         void Update(ConfigurationSetting setting);
         void Delete(int id);
-        int GetApplicationId(int configurationSettingId);
+        int GetApplicationId(int configurationId);
     }
 }

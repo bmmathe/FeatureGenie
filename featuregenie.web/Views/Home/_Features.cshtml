@@ -25,10 +25,7 @@
                     </th>
                     <th>
 
-                    </th>
-                    <th>
-
-                    </th>
+                    </th>            
                 </tr>
             </thead>
             <tbody>
@@ -54,15 +51,13 @@
                             @row.Ratio
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = row.FeatureId }, new { @class = "btn" })
-                        </td>
-                        <td>
-                            @Html.ActionLink("Delete", "Delete", new { id = row.FeatureId }, new { @class = "btn btn-danger" })
-                        </td>
+                            <a href="#" class="btn btn-sm" data-action="edit-feature" data-feature-id="@row.FeatureId">Edit</a>
+                            <a href="#" class="btn btn-sm btn-danger" data-action="delete-feature" data-feature-id="@row.FeatureId">Delete</a>
+                        </td>                    
                     </tr>
                 }
             <tr>
-                <td colspan="8">
+                <td colspan="7">
                     <a href="#" data-toggle="modal" data-target="#createFeatureModal"><i class="fa fa-plus" style="color: green"></i> Add</a>
                 </td>
             </tr>

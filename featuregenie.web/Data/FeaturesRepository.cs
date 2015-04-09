@@ -30,5 +30,13 @@ namespace featuregenie.web.Data
         {
             Db.Execute(@"DELETE FROM genie.Feature WHERE FeatureId = @FeatureId", new { FeatureId = id });
         }
+
+        public int GetApplicationId(int featureId)
+        {
+            return
+                Db.Query<int>(
+                    @"SELECT ApplicationId FROM genie.Feature WHERE FeatureId = @FeatureId",
+                    new { FeatureId = featureId }).First();
+        }
     }
 }
