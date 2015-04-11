@@ -116,12 +116,12 @@
                 var configurationId = $(this).data("configuration-id");                                   
                 $(this).click(function () {
                     // show edit configuration settings modal
-                    $("#createConfiguationSettingModal").modal("show");
+                    $("#createConfigurationSettingModal").modal("show");
                     $.get("/Configuration/Details/" + configurationId, function (data) {
                         $("#ConfigurationSettingModal_ConfigurationId").val(data.FeatureId);
                         $("#ConfigurationSettingModal_ApplicationId").val(data.ApplicationId);
                         $("#ConfigurationSettingModal_Name").val(data.Name);
-                        $("#ConfigurationSettingModal_Value").val(data.Description);                  
+                        $("#ConfigurationSettingModal_Value").val(data.Value);                  
                     });
                 });                
             });
