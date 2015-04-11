@@ -78,7 +78,6 @@
         });
 
         $("#saveConfigurationSettingButton").click(function () {
-
             var configurationId = $("#ConfigurationSettingModal_ConfigurationId").val();
             if (configurationId > 0) {
                 $.ajax({
@@ -118,7 +117,7 @@
                     // show edit configuration settings modal
                     $("#createConfigurationSettingModal").modal("show");
                     $.get("/Configuration/Details/" + configurationId, function (data) {
-                        $("#ConfigurationSettingModal_ConfigurationId").val(data.FeatureId);
+                        $("#ConfigurationSettingModal_ConfigurationId").val(data.ConfigurationId);
                         $("#ConfigurationSettingModal_ApplicationId").val(data.ApplicationId);
                         $("#ConfigurationSettingModal_Name").val(data.Name);
                         $("#ConfigurationSettingModal_Value").val(data.Value);                  
