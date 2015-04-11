@@ -43,6 +43,11 @@ namespace featuregenie.web.Controllers
             return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(applicationId));
         }
 
+        public ActionResult Details(int id)
+        {
+            return Json(_configurationRepository.Get(id), JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

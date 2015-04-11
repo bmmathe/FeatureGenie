@@ -51,14 +51,14 @@
                             @row.Ratio
                         </td>
                         <td>
-                            <a href="#" class="btn btn-sm" data-action="edit-feature" data-feature-id="@row.FeatureId">Edit</a>
+                            <a href="#" class="btn btn-sm" data-toggle="modal" data-action="edit-feature" data-feature-id="@row.FeatureId">Edit</a>
                             <a href="#" class="btn btn-sm btn-danger" data-action="delete-feature" data-feature-id="@row.FeatureId">Delete</a>
                         </td>                    
                     </tr>
                 }
             <tr>
                 <td colspan="7">
-                    <a href="#" data-toggle="modal" data-target="#createFeatureModal"><i class="fa fa-plus" style="color: green"></i> Add</a>
+                    <a href="#" id="createFeatureLink"><i class="fa fa-plus" style="color: green"></i> Add</a>
                 </td>
             </tr>
             </tbody>
@@ -67,7 +67,7 @@
     else
     {
         <h3>
-            No features available.  Add a new feature <a href="#" data-toggle="modal" data-target="#createFeatureModal">here.</a>
+            No features available.  Add a new feature <a href="#" id="createFeatureLink" data-toggle="modal">here.</a>
         </h3>
     }
 </div>

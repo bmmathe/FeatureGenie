@@ -83,6 +83,7 @@ GO
 GRANT INSERT ON SCHEMA :: genie TO FeatureGenieUser;
 GRANT SELECT ON SCHEMA :: genie TO FeatureGenieUser;
 GRANT DELETE ON SCHEMA :: genie TO FeatureGenieUser;
+GRANT UPDATE ON SCHEMA :: genie TO FeatureGenieUser;
 
 /****** Object:  Table [genie].[ValueType]    Script Date: 4/5/2015 10:21:21 PM ******/
 SET ANSI_NULLS ON

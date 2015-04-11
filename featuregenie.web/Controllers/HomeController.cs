@@ -23,35 +23,15 @@ namespace featuregenie.web.Controllers
             model.Applications = _applicationRepository.GetAll();
             return View(model);
         }
-
-        [HttpPost]
-        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
-        public ActionResult CreateFeature(Feature feature)
-        {
-            _featureRepository.Create(feature);
-            return PartialView("_Features", _featureRepository.GetAll(feature.ApplicationId));
-        }
-
+        
         [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
         public ActionResult Delete(int id)
         {
             _featureRepository.Delete(id);
             return RedirectToAction("Index");
-        }
+        }        
 
-        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
-        public ActionResult Edit(int id)
-        {
-            return View(_featureRepository.Get(id));
-        }
-
-        [HttpPost]
-        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
-        public ActionResult Edit(Feature feature)
-        {
-            _featureRepository.Update(feature);
-            return RedirectToAction("Index");
-        }
+        
 
         [HttpPost]
         public ActionResult CreateApplication(Application model)

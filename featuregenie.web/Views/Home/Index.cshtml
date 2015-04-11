@@ -4,7 +4,7 @@
     <script>
         $("#selectApplication").change(function() {
             var id = $("#selectApplication").val();
-            $.post("/Home/_Features/" + id, function(data) {
+            $.post("/Feature/_Features/" + id, function(data) {
                 $("#features").html(data);
                 bindFeatureButtons();
             });
@@ -14,7 +14,7 @@
                 bindConfigurationSettingButtons();
             });
 
-            
+
         });
 
         $("#createApplicationModal").on("shown.bs.modal", function() {
@@ -37,99 +37,163 @@
         });
 
         $("#createFeatureModal").on("shown.bs.modal", function() {
-            var selectedApplicationId = $("#selectApplication").val();
-            $("#newFeatureForm > #ApplicationId").val(selectedApplicationId);
-            $("#Name").focus();
+            $("#FeatureModal_Name").focus();
         });
 
         $("#saveFeatureButton").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/Home/CreateFeature",
-                data: $("#newFeatureForm").serialize(),
-                success: function(features) {
-                    $("#createFeatureModal").modal("hide");
-                    $("#features").html(features);
-                    bindFeatureButtons();
-                },
-                error: function() {
-                    $("#createFeatureModal").modal("hide");
-                }
-            });
+            var featureId = $("#FeatureModal_FeatureId").val();
+            if (featureId > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Feature/Edit/",
+                    data: $("#newFeatureForm").serialize(),
+                    success: function(features) {
+                        $("#createFeatureModal").modal("hide");
+                        $("#features").html(features);
+                        bindFeatureButtons();
+                    },
+                    error: function() {
+                        $("#createFeatureModal").modal("hide");
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Feature/Create",
+                    data: $("#newFeatureForm").serialize(),
+                    success: function(features) {
+                        $("#createFeatureModal").modal("hide");
+                        $("#features").html(features);
+                        bindFeatureButtons();
+                    },
+                    error: function() {
+                        $("#createFeatureModal").modal("hide");
+                    }
+                });
+            }
         });
 
         $("#createConfigurationSettingModal").on("shown.bs.modal", function() {
-            var selectedApplicationId = $("#selectApplication").val();
-            $("#newConfigurationSettingForm > #ApplicationId").val(selectedApplicationId);
-            $("#Name").focus();
+            $("#ConfigurationSettingModal_Name").focus();
         });
 
-        $("#saveConfigurationSettingButton").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/Configuration/Create",
-                data: $("#newConfigurationSettingForm").serialize(),
-                success: function(configuration) {
-                    $("#createConfigurationSettingModal").modal("hide");
-                    $("#configuration").html(configuration);
-                    bindConfigurationSettingButtons();
-                },
-                error: function() {
-                    $("#createConfiguationSettingModal").modal("hide");
-                }
-            });
+        $("#saveConfigurationSettingButton").click(function () {
+
+            var configurationId = $("#ConfigurationSettingModal_ConfigurationId").val();
+            if (configurationId > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Configuration/Edit/",
+                    data: $("#newConfigurationSettingForm").serialize(),
+                    success: function (configuration) {
+                        $("#createConfigurationSettingModal").modal("hide");
+                        $("#configuration").html(configuration);
+                        bindConfigurationSettingButtons();
+                    },
+                    error: function () {
+                        $("#createConfiguationSettingModal").modal("hide");
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Configuration/Create",
+                    data: $("#newConfigurationSettingForm").serialize(),
+                    success: function (configuration) {
+                        $("#createConfigurationSettingModal").modal("hide");
+                        $("#configuration").html(configuration);
+                        bindConfigurationSettingButtons();
+                    },
+                    error: function () {
+                        $("#createConfiguationSettingModal").modal("hide");
+                    }
+                });
+            }            
         });
 
-        var bindConfigurationSettingButtons = function () {
+        var bindConfigurationSettingButtons = function() {
             $("a[data-action='edit-configuration-setting']").each(function (index) {
                 var configurationId = $(this).data("configuration-id");                                   
                 $(this).click(function () {
                     // show edit configuration settings modal
                     $("#createConfiguationSettingModal").modal("show");
+                    $.get("/Configuration/Details/" + configurationId, function (data) {
+                        $("#ConfigurationSettingModal_ConfigurationId").val(data.FeatureId);
+                        $("#ConfigurationSettingModal_ApplicationId").val(data.ApplicationId);
+                        $("#ConfigurationSettingModal_Name").val(data.Name);
+                        $("#ConfigurationSettingModal_Value").val(data.Description);                  
+                    });
                 });                
             });
 
-            $("a[data-action='delete-configuration-setting']").each(function (index) {
+            $("a[data-action='delete-configuration-setting']").each(function(index) {
                 var configurationId = $(this).data("configuration-id");
-                $(this).click(function () {
-                    $.ajax({
-                        type: "GET",
-                        url: "/Configuration/Delete/" + configurationId,
-                        success: function (configuration) {
+                $(this).click(function() {
+                    $.get("/Configuration/Delete/" + configurationId,
+                        function(configuration) {
                             $("#configuration").html(configuration);
                             bindConfigurationSettingButtons();
                         }
-                    });
-                });              
+                    );
+                });
+            });            
+
+            $("#createConfigurationSettingLink").click(function () {
+                var selectedApplicationId = $("#selectApplication").val();
+                $("#ConfigurationSettingModal_ConfigurationId").val(0);
+                $("#ConfigurationSettingModal_ApplicationId").val(selectedApplicationId);                
+                $("#ConfigurationSettingModal_Name").val("");
+                $("#ConfigurationSettingModal_Value").val("");
+                $("#createConfigurationSettingModal").modal("show");
             });
         }
 
-        var bindFeatureButtons = function () {
-            $("a[data-action='edit-feature']").each(function (index) {
+        var bindFeatureButtons = function() {
+            $("a[data-action='edit-feature']").each(function(index) {
                 var featureId = $(this).data("feature-id");
-                $(this).click(function () {
+                $(this).click(function() {
                     // show edit configuration settings modal
                     $("#createFeatureModal").modal("show");
+                    $.get("/Feature/Details/" + featureId, function(data) {
+                        $("#FeatureModal_FeatureId").val(data.FeatureId);
+                        $("#FeatureModal_ApplicationId").val(data.ApplicationId);
+                        $("#FeatureModal_Name").val(data.Name);
+                        $("#FeatureModal_Description").val(data.Description);
+                        $("#FeatureModal_StartTime").val(data.StartTime);
+                        $("#FeatureModal_EndTime").val(data.EndTime);
+                        $("#FeatureModal_Ratio").val(data.Ratio);
+                        $("#FeatureModal_IsEnabled").prop("checked", data.IsEnabled);
+                    });
                 });
             });
 
-            $("a[data-action='delete-feature']").each(function (index) {
+            $("a[data-action='delete-feature']").each(function(index) {
                 var featureId = $(this).data("feature-id");
-                $(this).click(function () {
-                    $.ajax({
-                        type: "GET",
-                        url: "/Feature/Delete/" + featureId,
-                        success: function (features) {
+                $(this).click(function() {
+                    $.get("/Feature/Delete/" + featureId, function(features) {
                             $("#features").html(features);
                             bindFeatureButtons();
                         }
-                    });
+                    );
                 });
+            });
+
+            $("#createFeatureLink").click(function() {
+                var selectedApplicationId = $("#selectApplication").val();
+                $("#FeatureModal_FeatureId").val(0);
+                $("#FeatureModal_ApplicationId").val(selectedApplicationId);
+                $("#FeatureModal_Name").val("");
+                $("#FeatureModal_Description").val("");
+                $("#FeatureModal_StartTime").val("");
+                $("#FeatureModal_EndTime").val("");
+                $("#FeatureModal_Ratio").val("");
+                $("#FeatureModal_IsEnabled").prop("checked", true);
+                $("#createFeatureModal").modal("show");
             });
         }
     </script>
 }
-
+                    
 <div class="row" id="applications">
     @Html.Partial("_Applications", Model)
 </div>
