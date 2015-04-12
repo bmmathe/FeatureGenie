@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using featuregenie.web.Data;
 using featuregenie.web.Models;
@@ -37,7 +38,14 @@ namespace featuregenie.web.Controllers
         public ActionResult CreateApplication(Application model)
         {
             _applicationRepository.Add(model);
-            return PartialView("_Features", new List<Feature>());
+            var applications = _applicationRepository.GetAll();
+            var viewModel = new HomeViewModel()
+            {
+                Applications = applications,
+                SelectedApplicationId = applications.Single(x => x.Name == model.Name).ApplicationId
+            };
+            
+            return PartialView("_Applications", viewModel);
         }
 
         [HttpPost]

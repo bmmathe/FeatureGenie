@@ -3,32 +3,37 @@
 {
     <script>
         $("#selectApplication").change(function() {
-            var id = $("#selectApplication").val();
-            $.post("/Feature/_Features/" + id, function(data) {
-                $("#features").html(data);
-                bindFeatureButtons();
-            });
-
-            $.post("/Configuration/_ConfigurationSettings/" + id, function(data) {
-                $("#configuration").html(data);
-                bindConfigurationSettingButtons();
-            });
-
-
+            selectApplication();
         });
 
         $("#createApplicationModal").on("shown.bs.modal", function() {
             $("#ApplicationName").focus();
         });
 
+        function selectApplication() {
+            var id = $("#selectApplication").val();
+            if (id > 0) {
+                $.post("/Feature/_Features/" + id, function (data) {
+                    $("#features").html(data);
+                    bindFeatureButtons();
+                });
+
+                $.post("/Configuration/_ConfigurationSettings/" + id, function (data) {
+                    $("#configuration").html(data);
+                    bindConfigurationSettingButtons();
+                });
+            }
+        }
+
         $("#saveApplicationButton").click(function() {
             $.ajax({
                 type: "POST",
                 url: "/Home/CreateApplication",
                 data: $("#newApplicationForm").serialize(),
-                success: function(features) {
+                success: function(applications) {
                     $("#createApplicationModal").modal("hide");
-                    $("#features").html(features);
+                    $("#applications").html(applications);
+                    selectApplication();
                 },
                 error: function() {
                     $("#createApplicationModal").modal("hide");
@@ -77,19 +82,20 @@
             $("#ConfigurationSettingModal_Name").focus();
         });
 
-        $("#saveConfigurationSettingButton").click(function () {
+        $("#saveConfigurationSettingButton").click(function() {
             var configurationId = $("#ConfigurationSettingModal_ConfigurationId").val();
+            var feature = $("#newConfigurationSettingForm").serialize();
             if (configurationId > 0) {
                 $.ajax({
                     type: "POST",
                     url: "/Configuration/Edit/",
-                    data: $("#newConfigurationSettingForm").serialize(),
-                    success: function (configuration) {
+                    data: feature,
+                    success: function(configuration) {
                         $("#createConfigurationSettingModal").modal("hide");
                         $("#configuration").html(configuration);
                         bindConfigurationSettingButtons();
                     },
-                    error: function () {
+                    error: function() {
                         $("#createConfiguationSettingModal").modal("hide");
                     }
                 });
@@ -97,32 +103,32 @@
                 $.ajax({
                     type: "POST",
                     url: "/Configuration/Create",
-                    data: $("#newConfigurationSettingForm").serialize(),
-                    success: function (configuration) {
+                    data: feature,
+                    success: function(configuration) {
                         $("#createConfigurationSettingModal").modal("hide");
                         $("#configuration").html(configuration);
                         bindConfigurationSettingButtons();
                     },
-                    error: function () {
+                    error: function() {
                         $("#createConfiguationSettingModal").modal("hide");
                     }
                 });
-            }            
+            }
         });
 
         var bindConfigurationSettingButtons = function() {
-            $("a[data-action='edit-configuration-setting']").each(function (index) {
-                var configurationId = $(this).data("configuration-id");                                   
-                $(this).click(function () {
+            $("a[data-action='edit-configuration-setting']").each(function(index) {
+                var configurationId = $(this).data("configuration-id");
+                $(this).click(function() {
                     // show edit configuration settings modal
                     $("#createConfigurationSettingModal").modal("show");
-                    $.get("/Configuration/Details/" + configurationId, function (data) {
+                    $.get("/Configuration/Details/" + configurationId, function(data) {
                         $("#ConfigurationSettingModal_ConfigurationId").val(data.ConfigurationId);
                         $("#ConfigurationSettingModal_ApplicationId").val(data.ApplicationId);
                         $("#ConfigurationSettingModal_Name").val(data.Name);
-                        $("#ConfigurationSettingModal_Value").val(data.Value);                  
+                        $("#ConfigurationSettingModal_Value").val(data.Value);
                     });
-                });                
+                });
             });
 
             $("a[data-action='delete-configuration-setting']").each(function(index) {
@@ -135,12 +141,12 @@
                         }
                     );
                 });
-            });            
+            });
 
-            $("#createConfigurationSettingLink").click(function () {
+            $("#createConfigurationSettingLink").click(function() {
                 var selectedApplicationId = $("#selectApplication").val();
                 $("#ConfigurationSettingModal_ConfigurationId").val(0);
-                $("#ConfigurationSettingModal_ApplicationId").val(selectedApplicationId);                
+                $("#ConfigurationSettingModal_ApplicationId").val(selectedApplicationId);
                 $("#ConfigurationSettingModal_Name").val("");
                 $("#ConfigurationSettingModal_Value").val("");
                 $("#createConfigurationSettingModal").modal("show");
@@ -161,7 +167,8 @@
                         $("#FeatureModal_StartTime").val(data.StartTime);
                         $("#FeatureModal_EndTime").val(data.EndTime);
                         $("#FeatureModal_Ratio").val(data.Ratio);
-                        $("#FeatureModal_IsEnabled").prop("checked", data.IsEnabled);
+                        $("#FeatureModal_IsEnabledCheckBox").prop("checked", data.IsEnabled);
+                        $("#FeatureModal_IsEnabled").val(data.IsEnabled);
                     });
                 });
             });
@@ -186,26 +193,33 @@
                 $("#FeatureModal_StartTime").val("");
                 $("#FeatureModal_EndTime").val("");
                 $("#FeatureModal_Ratio").val("");
-                $("#FeatureModal_IsEnabled").prop("checked", true);
+                $("#FeatureModal_IsEnabledCheckBox").prop("checked", true);
+                $("#FeatureModal_IsEnabled").val(true);
                 $("#createFeatureModal").modal("show");
             });
         }
+
+        $("#FeatureModal_IsEnabledCheckBox").change(function() {
+            var isEnabled = $("#FeatureModal_IsEnabledCheckBox").prop("checked");
+            $("#FeatureModal_IsEnabled").val(isEnabled);
+        });
     </script>
 }
-                    
-<div class="row" id="applications">
+<div class="" id="applications">
     @Html.Partial("_Applications", Model)
 </div>
-
-<ul class="nav nav-tabs" role="tablist">
-    <li role="features" class="active"><a href="#features" aria-controls="home" role="tab" data-toggle="tab">Features</a></li>
-    <li role="configuration"><a href="#configuration" aria-controls="home" role="tab" data-toggle="tab">Configuration</a></li>
-</ul>
-<div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="features"></div>
-    <div role="tabpanel" class="tab-pane" id="configuration"></div>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="features" class="active"><a href="#features" aria-controls="home" role="tab" data-toggle="tab">Features</a></li>
+            <li role="configuration"><a href="#configuration" aria-controls="home" role="tab" data-toggle="tab">Configuration</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="features"></div>
+            <div role="tabpanel" class="tab-pane" id="configuration"></div>
+        </div>
+    </div>
 </div>
-
 @Html.Partial("_CreateApplicationModal")
 @Html.Partial("_CreateFeatureModal")
 @Html.Partial("_CreateConfigurationSettingModal")

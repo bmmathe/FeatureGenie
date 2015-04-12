@@ -1,14 +1,18 @@
 ﻿@model featuregenie.web.Models.HomeViewModel
-<div class="col-lg-12">        
-    <div class="form-group">
-        <label for="selectApplication" class=" col-lg-2 control-label">Select Application</label>
-        <div class="col-lg-10">
-            @Html.DropDownListFor(x => x.SelectedApplicationId, Model.Applications.Select(x => new SelectListItem() { Text = x.Name, Value = x.ApplicationId.ToString() }),
-            new
-            {
-                @class = "form-control",
-                id = "selectApplication"
-            })
-        </div>
-    </div>                
+<div class="row">
+    <div class="col-md-6">
+        <form class="form-horizontal">
+            <div class="form-group form-group-sm">
+                <label for="selectApplication" class="col-sm-3 control-label">Select Application</label>
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(x => x.SelectedApplicationId, Model.Applications.Select(x => new SelectListItem() { Text = x.Name, Value = x.ApplicationId.ToString(), Selected = (x.ApplicationId == Model.SelectedApplicationId)}),
+                    new
+                    {
+                        @class = "form-control",
+                        id = "selectApplication"
+                    })
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
