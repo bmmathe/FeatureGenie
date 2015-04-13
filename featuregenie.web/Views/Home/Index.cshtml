@@ -1,4 +1,5 @@
-﻿@model featuregenie.web.Models.HomeViewModel
+﻿@using featuregenie.web.Models
+@model featuregenie.web.Models.HomeViewModel
 @section scripts
 {
     <script>
@@ -13,32 +14,35 @@
         function selectApplication() {
             var id = $("#selectApplication").val();
             if (id > 0) {
-                $.post("/Feature/_Features/" + id, function (data) {
+                $.post("/Feature/_Features/" + id, function(data) {
                     $("#features").html(data);
                     bindFeatureButtons();
                 });
 
-                $.post("/Configuration/_ConfigurationSettings/" + id, function (data) {
+                $.post("/Configuration/_ConfigurationSettings/" + id, function(data) {
                     $("#configuration").html(data);
                     bindConfigurationSettingButtons();
                 });
             }
         }
 
-        $("#saveApplicationButton").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/Home/CreateApplication",
-                data: $("#newApplicationForm").serialize(),
-                success: function(applications) {
-                    $("#createApplicationModal").modal("hide");
-                    $("#applications").html(applications);
-                    selectApplication();
-                },
-                error: function() {
-                    $("#createApplicationModal").modal("hide");
-                }
-            });
+        $("#saveApplicationButton").click(function () {
+            var applicationForm = $("#newApplicationForm");
+            if (applicationForm.valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/CreateApplication",
+                    data: applicationForm.serialize(),
+                    success: function(applications) {
+                        $("#createApplicationModal").modal("hide");
+                        $("#applications").html(applications);
+                        selectApplication();
+                    },
+                    error: function() {
+                        $("#createApplicationModal").modal("hide");
+                    }
+                });
+            }
         });
 
         $("#createFeatureModal").on("shown.bs.modal", function() {
@@ -220,6 +224,6 @@
         </div>
     </div>
 </div>
-@Html.Partial("_CreateApplicationModal")
+@Html.Partial("_ApplicationModal", new Application())
 @Html.Partial("_CreateFeatureModal")
 @Html.Partial("_CreateConfigurationSettingModal")

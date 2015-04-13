@@ -41,6 +41,7 @@ namespace featuregenie.web.Controllers
             return Json(_featureRepository.Get(id), JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
         public ActionResult Delete(int id)
         {
             var applicationId = _featureRepository.GetApplicationId(id);

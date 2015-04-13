@@ -22,19 +22,13 @@ namespace featuregenie.web.Controllers
         {
             var model = new HomeViewModel();
             model.Applications = _applicationRepository.GetAll();
+            model.Applications.Insert(0, new Application(){ApplicationId = 0, Name = "--Select Application--"});
             return View(model);
         }
         
-        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
-        public ActionResult Delete(int id)
-        {
-            _featureRepository.Delete(id);
-            return RedirectToAction("Index");
-        }        
-
         
-
         [HttpPost]
+        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
         public ActionResult CreateApplication(Application model)
         {
             _applicationRepository.Add(model);
@@ -52,12 +46,7 @@ namespace featuregenie.web.Controllers
         public ActionResult _Features(int id)
         {
             return PartialView(_featureRepository.GetAll(id));
-        }
-
-        public ActionResult _CreateApplicationModal()
-        {
-            return PartialView();
-        }
+        }        
 
         protected override void Dispose(bool disposing)
         {
