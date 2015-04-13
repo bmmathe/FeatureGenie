@@ -27,23 +27,35 @@
         }
 
         $("#saveApplicationButton").click(function () {
-            var applicationForm = $("#newApplicationForm");
-            if (applicationForm.valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: "/Home/CreateApplication",
-                    data: applicationForm.serialize(),
-                    success: function(applications) {
-                        $("#createApplicationModal").modal("hide");
-                        $("#applications").html(applications);
-                        selectApplication();
-                    },
-                    error: function() {
-                        $("#createApplicationModal").modal("hide");
-                    }
-                });
+            $("#newApplicationForm").submit();
+            //applicationForm.validate( {
+            //    submitHandler: function(form) {
+            //        $.ajax({
+            //            type: "POST",
+            //            url: "/Home/CreateApplication",
+            //            data: form.serialize(),
+            //            success: function (applications) {
+            //                $("#createApplicationModal").modal("hide");
+            //                $("#applications").html(applications);
+            //                selectApplication();
+            //            },
+            //            error: function () {
+            //                $("#createApplicationModal").modal("hide");
+            //            }
+            //        });
+            //    }
+            //});
+        });
+
+        $("#newApplicationForm").submit(function() {
+            if ($(this).valid()) {
+                $("#createApplicationModal").modal("hide");                
             }
         });
+
+        function createApplicationSuccess() {
+            selectApplication();
+        }
 
         $("#createFeatureModal").on("shown.bs.modal", function() {
             $("#FeatureModal_Name").focus();

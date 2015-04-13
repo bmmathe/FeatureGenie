@@ -9,12 +9,13 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        @using (Html.BeginForm("CreateApplication", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+                        @using (Ajax.BeginForm("CreateApplication", "Home", new AjaxOptions(){InsertionMode = InsertionMode.Replace, UpdateTargetId = "applications", OnSuccess = "createApplicationSuccess"}, new { @class = "form-horizontal", id = "newApplicationForm" }))
                         {
                             <div class="form-group">
                                 @Html.LabelFor(x => x.Name, new{@class="col-sm-3 control-label"})
                                 <div class="col-lg-9">
                                     @Html.TextBoxFor(x => x.Name, new {@class="form-control"})
+                                    @Html.ValidationMessageFor(e => e.Name)
                                 </div>
                             </div>
                             <div class="form-group">
