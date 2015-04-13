@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using featuregenie.web.Data;
 using featuregenie.web.Models;
 
@@ -25,15 +21,32 @@ namespace featuregenie.web.Controllers
         [HttpPost]
         public ActionResult _Features(int id)
         {
-            return PartialView(_featureRepository.GetAll(id));
+            return PartialView(new FeaturesViewModel(){Features=_featureRepository.GetAll(id), ApplicationId = id});
+        }
+
+        public ActionResult Create(int applicationId)
+        {
+            return PartialView("_FeatureModal", new Feature(){ApplicationId = applicationId, IsEnabled = true});
+        }
+
+        public ActionResult Edit(int id)
+        {
+            return PartialView("_FeatureModal", _featureRepository.Get(id));
         }
 
         [HttpPost]
         [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
-        public ActionResult Create(FeatureModal feature)
+        public ActionResult Upsert(Feature feature)
         {
-            _featureRepository.Create(feature.ConvertToFeature());
-            return PartialView("_Features", _featureRepository.GetAll(feature.FeatureModal_ApplicationId));
+            if (feature.FeatureId > 0)
+            {
+                _featureRepository.Update(feature);
+            }
+            else
+            {
+                _featureRepository.Create(feature);                
+            }
+            return PartialView("_Features", new FeaturesViewModel(){ApplicationId = feature.ApplicationId, Features =_featureRepository.GetAll(feature.ApplicationId)});
         }
   
         public ActionResult Details(int id)
@@ -47,15 +60,7 @@ namespace featuregenie.web.Controllers
             var applicationId = _featureRepository.GetApplicationId(id);
             _featureRepository.Delete(id);
             return PartialView("_Features", _featureRepository.GetAll(applicationId));
-        }
-
-        [HttpPost]
-        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
-        public ActionResult Edit(FeatureModal feature)
-        {
-            _featureRepository.Update(feature.ConvertToFeature());
-            return PartialView("_Features", _featureRepository.GetAll(feature.FeatureModal_ApplicationId));
-        }
+        }            
 
         protected override void Dispose(bool disposing)
         {

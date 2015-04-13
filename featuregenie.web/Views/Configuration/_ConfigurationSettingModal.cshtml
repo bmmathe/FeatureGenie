@@ -1,0 +1,50 @@
+﻿@model featuregenie.web.Models.ConfigurationSetting
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Configuration Setting</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Ajax.BeginForm("Upsert", "Configuration", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "configuration", }, new { @class = "form-horizontal", id = "newConfigurationSettingForm" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Name, new {@class="control-label col-md-3"})
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(x => x.Name, new {@class="form-control"})
+                        @Html.ValidationMessageFor(e => e.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Value, new {@class = "control-label col-md-3"})
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(x => x.Value, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(e => e.Value)
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.ApplicationId)
+                @Html.HiddenFor(x => x.ConfigurationId)
+            }
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" id="saveConfigurationSettingButton">Save changes</button>
+</div>
+
+<script>
+    $(function () {
+        $("#saveConfigurationSettingButton").click(function () {
+            $("#newConfigurationSettingForm").submit();
+        });
+
+        $("#newConfigurationSettingForm").submit(function () {
+            if ($(this).valid()) {
+                $("#modal-container").modal("hide");
+            }
+        });
+
+        $("#Name").focus();
+    });
+</script>

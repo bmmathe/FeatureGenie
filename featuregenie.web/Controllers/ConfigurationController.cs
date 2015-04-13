@@ -30,17 +30,10 @@ namespace featuregenie.web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ConfigurationSettingModal setting)
+        public ActionResult Upsert(ConfigurationSetting setting)
         {
-            _configurationRepository.Create(setting.ConvertToConfigurationSetting());
-            return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(setting.ConfigurationSettingModal_ApplicationId));
-        }
-
-        [HttpPost]
-        public ActionResult Edit(ConfigurationSettingModal setting)
-        {
-            _configurationRepository.Update(setting.ConvertToConfigurationSetting());
-            return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(setting.ConfigurationSettingModal_ApplicationId));
+            _configurationRepository.Update(setting);
+            return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(setting.ApplicationId));
         }
 
         public ActionResult Delete(int id)

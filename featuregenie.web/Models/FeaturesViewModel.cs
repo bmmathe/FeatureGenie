@@ -4,7 +4,7 @@ namespace featuregenie.web.Models
 {
     public class FeaturesViewModel
     {
-        public string Notification { get; set; }
+        public int ApplicationId { get; set; }
         public List<Feature> Features { get; set; }
     }
 }

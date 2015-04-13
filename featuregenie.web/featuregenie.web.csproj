@@ -163,9 +163,7 @@
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Models\Application.cs" />
     <Compile Include="Models\ConfigurationSetting.cs" />
-    <Compile Include="Models\ConfigurationSettingModal.cs" />
     <Compile Include="Models\Feature.cs" />
-    <Compile Include="Models\FeatureModal.cs" />
     <Compile Include="Models\FeaturesViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -227,17 +225,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\_CreateFeatureModal.cshtml" />
     <Content Include="Views\Home\View.cshtml" />
     <Content Include="Views\Feature\_Features.cshtml" />
     <Content Include="Views\Home\_Applications.cshtml" />
-    <Content Include="Views\Home\_CreateApplicationModal.cshtml" />
     <Content Include="Web.QA.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Configuration\_ConfigurationSettings.cshtml" />
-    <Content Include="Views\Home\_CreateConfigurationSettingModal.cshtml" />
     <Content Include="Views\Home\_ApplicationModal.cshtml" />
+    <Content Include="Views\Feature\_FeatureModal.cshtml" />
+    <Content Include="Views\Configuration\_ConfigurationSettingModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.modal-content {
+            width: 600px;
+            max-width:900px;
+            margin: 30px auto !important;
+        }

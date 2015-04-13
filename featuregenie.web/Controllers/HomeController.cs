@@ -46,7 +46,12 @@ namespace featuregenie.web.Controllers
         public ActionResult _Features(int id)
         {
             return PartialView(_featureRepository.GetAll(id));
-        }        
+        }
+
+        public ActionResult _ApplicationModal()
+        {
+            return PartialView(new Application());
+        }
 
         protected override void Dispose(bool disposing)
         {

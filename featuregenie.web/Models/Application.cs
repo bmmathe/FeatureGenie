@@ -8,7 +8,7 @@ namespace featuregenie.web.Models
         public int ApplicationId { get; set; }
         [Required]
         [MaxLength(50)]
-        [DisplayName("Application Name")]
+        [DisplayName("Application Name")]        
         public string Name { get; set; }
         public string Description { get; set; }
     }
