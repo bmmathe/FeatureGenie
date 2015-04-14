@@ -1,223 +1,42 @@
-﻿@using featuregenie.web.Models
-@model featuregenie.web.Models.HomeViewModel
+﻿@model featuregenie.web.Models.HomeViewModel
 @section scripts
 {
     <script>
         $("#selectApplication").change(function() {
             selectApplication();
-        });
-
-        $("#createApplicationModal").on("shown.bs.modal", function() {
-            $("#ApplicationName").focus();
-        });
+        });        
 
         function selectApplication() {
             var id = $("#selectApplication").val();
             if (id > 0) {
                 $.post("/Feature/_Features/" + id, function(data) {
                     $("#features").html(data);
-                    bindFeatureButtons();
                 });
 
                 $.post("/Configuration/_ConfigurationSettings/" + id, function(data) {
-                    $("#configuration").html(data);
-                    bindConfigurationSettingButtons();
+                    $("#configuration").html(data);           
                 });
             }
-        }
-
-        $("#saveApplicationButton").click(function () {
-            $("#newApplicationForm").submit();
-            //applicationForm.validate( {
-            //    submitHandler: function(form) {
-            //        $.ajax({
-            //            type: "POST",
-            //            url: "/Home/CreateApplication",
-            //            data: form.serialize(),
-            //            success: function (applications) {
-            //                $("#createApplicationModal").modal("hide");
-            //                $("#applications").html(applications);
-            //                selectApplication();
-            //            },
-            //            error: function () {
-            //                $("#createApplicationModal").modal("hide");
-            //            }
-            //        });
-            //    }
-            //});
-        });
-
-        $("#newApplicationForm").submit(function() {
-            if ($(this).valid()) {
-                $("#createApplicationModal").modal("hide");                
-            }
-        });
+        }        
 
         function createApplicationSuccess() {
             selectApplication();
         }
+                                    
 
-        $("#createFeatureModal").on("shown.bs.modal", function() {
-            $("#FeatureModal_Name").focus();
+        // auto modal stuff
+        $('body').on('click', '.modal-link', function (e) {
+            e.preventDefault();
+            $(this).attr('data-target', '#modal-container');
+            $(this).attr('data-toggle', 'modal');
         });
-
-        $("#saveFeatureButton").click(function() {
-            var featureId = $("#FeatureModal_FeatureId").val();
-            if (featureId > 0) {
-                $.ajax({
-                    type: "POST",
-                    url: "/Feature/Edit/",
-                    data: $("#newFeatureForm").serialize(),
-                    success: function(features) {
-                        $("#createFeatureModal").modal("hide");
-                        $("#features").html(features);
-                        bindFeatureButtons();
-                    },
-                    error: function() {
-                        $("#createFeatureModal").modal("hide");
-                    }
-                });
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "/Feature/Create",
-                    data: $("#newFeatureForm").serialize(),
-                    success: function(features) {
-                        $("#createFeatureModal").modal("hide");
-                        $("#features").html(features);
-                        bindFeatureButtons();
-                    },
-                    error: function() {
-                        $("#createFeatureModal").modal("hide");
-                    }
-                });
-            }
+        // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+        $('body').on('click', '.modal-close-btn', function () {
+            $('#modal-container').modal('hide');
         });
-
-        $("#createConfigurationSettingModal").on("shown.bs.modal", function() {
-            $("#ConfigurationSettingModal_Name").focus();
-        });
-
-        $("#saveConfigurationSettingButton").click(function() {
-            var configurationId = $("#ConfigurationSettingModal_ConfigurationId").val();
-            var feature = $("#newConfigurationSettingForm").serialize();
-            if (configurationId > 0) {
-                $.ajax({
-                    type: "POST",
-                    url: "/Configuration/Edit/",
-                    data: feature,
-                    success: function(configuration) {
-                        $("#createConfigurationSettingModal").modal("hide");
-                        $("#configuration").html(configuration);
-                        bindConfigurationSettingButtons();
-                    },
-                    error: function() {
-                        $("#createConfiguationSettingModal").modal("hide");
-                    }
-                });
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "/Configuration/Create",
-                    data: feature,
-                    success: function(configuration) {
-                        $("#createConfigurationSettingModal").modal("hide");
-                        $("#configuration").html(configuration);
-                        bindConfigurationSettingButtons();
-                    },
-                    error: function() {
-                        $("#createConfiguationSettingModal").modal("hide");
-                    }
-                });
-            }
-        });
-
-        var bindConfigurationSettingButtons = function() {
-            $("a[data-action='edit-configuration-setting']").each(function(index) {
-                var configurationId = $(this).data("configuration-id");
-                $(this).click(function() {
-                    // show edit configuration settings modal
-                    $("#createConfigurationSettingModal").modal("show");
-                    $.get("/Configuration/Details/" + configurationId, function(data) {
-                        $("#ConfigurationSettingModal_ConfigurationId").val(data.ConfigurationId);
-                        $("#ConfigurationSettingModal_ApplicationId").val(data.ApplicationId);
-                        $("#ConfigurationSettingModal_Name").val(data.Name);
-                        $("#ConfigurationSettingModal_Value").val(data.Value);
-                    });
-                });
-            });
-
-            $("a[data-action='delete-configuration-setting']").each(function(index) {
-                var configurationId = $(this).data("configuration-id");
-                $(this).click(function() {
-                    $.get("/Configuration/Delete/" + configurationId,
-                        function(configuration) {
-                            $("#configuration").html(configuration);
-                            bindConfigurationSettingButtons();
-                        }
-                    );
-                });
-            });
-
-            $("#createConfigurationSettingLink").click(function() {
-                var selectedApplicationId = $("#selectApplication").val();
-                $("#ConfigurationSettingModal_ConfigurationId").val(0);
-                $("#ConfigurationSettingModal_ApplicationId").val(selectedApplicationId);
-                $("#ConfigurationSettingModal_Name").val("");
-                $("#ConfigurationSettingModal_Value").val("");
-                $("#createConfigurationSettingModal").modal("show");
-            });
-        }
-
-        var bindFeatureButtons = function() {
-            $("a[data-action='edit-feature']").each(function(index) {
-                var featureId = $(this).data("feature-id");
-                $(this).click(function() {
-                    // show edit configuration settings modal
-                    $("#createFeatureModal").modal("show");
-                    $.get("/Feature/Details/" + featureId, function(data) {
-                        $("#FeatureModal_FeatureId").val(data.FeatureId);
-                        $("#FeatureModal_ApplicationId").val(data.ApplicationId);
-                        $("#FeatureModal_Name").val(data.Name);
-                        $("#FeatureModal_Description").val(data.Description);
-                        $("#FeatureModal_StartTime").val(data.StartTime);
-                        $("#FeatureModal_EndTime").val(data.EndTime);
-                        $("#FeatureModal_Ratio").val(data.Ratio);
-                        $("#FeatureModal_IsEnabledCheckBox").prop("checked", data.IsEnabled);
-                        $("#FeatureModal_IsEnabled").val(data.IsEnabled);
-                    });
-                });
-            });
-
-            $("a[data-action='delete-feature']").each(function(index) {
-                var featureId = $(this).data("feature-id");
-                $(this).click(function() {
-                    $.get("/Feature/Delete/" + featureId, function(features) {
-                            $("#features").html(features);
-                            bindFeatureButtons();
-                        }
-                    );
-                });
-            });
-
-            $("#createFeatureLink").click(function() {
-                var selectedApplicationId = $("#selectApplication").val();
-                $("#FeatureModal_FeatureId").val(0);
-                $("#FeatureModal_ApplicationId").val(selectedApplicationId);
-                $("#FeatureModal_Name").val("");
-                $("#FeatureModal_Description").val("");
-                $("#FeatureModal_StartTime").val("");
-                $("#FeatureModal_EndTime").val("");
-                $("#FeatureModal_Ratio").val("");
-                $("#FeatureModal_IsEnabledCheckBox").prop("checked", true);
-                $("#FeatureModal_IsEnabled").val(true);
-                $("#createFeatureModal").modal("show");
-            });
-        }
-
-        $("#FeatureModal_IsEnabledCheckBox").change(function() {
-            var isEnabled = $("#FeatureModal_IsEnabledCheckBox").prop("checked");
-            $("#FeatureModal_IsEnabled").val(isEnabled);
+        //clear modal cache, so that new content can be loaded
+        $('#modal-container').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
         });
     </script>
 }
@@ -236,6 +55,7 @@
         </div>
     </div>
 </div>
-@Html.Partial("_ApplicationModal", new Application())
-@Html.Partial("_CreateFeatureModal")
-@Html.Partial("_CreateConfigurationSettingModal")
+
+<div id="modal-container" class="modal fade">
+    <div class="modal-content"></div>
+</div>
