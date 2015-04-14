@@ -1,66 +1,67 @@
 ﻿@model featuregenie.web.Models.Feature
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Create Feature</h4>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-lg-12">
-                @using (Ajax.BeginForm("Upsert", "Feature", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "features", }, new { @class = "form-horizontal", id = "newFeatureForm" }))
-                {
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Name, new {@class = "control-label col-md-3"})
-                        <div class="col-md-9">
-                            @Html.TextBoxFor(x => x.Name, new {@class="form-control"})
-                            @Html.ValidationMessageFor(e => e.Name)
-                        </div>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Feature</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Ajax.BeginForm("Upsert", "Feature", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "features", }, new { @class = "form-horizontal", id = "newFeatureForm" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Name, new {@class = "control-label col-md-3"})
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(x => x.Name, new {@class="form-control"})
+                        @Html.ValidationMessageFor(e => e.Name)
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Description, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.TextAreaFor(x => x.Description, new {@class="form-control", row="10"})
-                            <div class="checkbox">
-                                @Html.CheckBoxFor(x => x.IsEnabled) Is Enabled
-                            </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Description, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextAreaFor(x => x.Description, new {@class="form-control", row="10"})
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(x => x.IsEnabled) Is Enabled
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.StartTime, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.TextBoxFor(x => x.StartTime, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(e => e.StartTime)
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.StartTime, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(x => x.StartTime, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(e => e.StartTime)
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.EndTime, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">                            
-                            @Html.TextBoxFor(x => x.EndTime, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(e => e.EndTime)
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.EndTime, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">                            
+                        @Html.TextBoxFor(x => x.EndTime, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(e => e.EndTime)
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Ratio, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.TextBoxFor(x => x.Ratio, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(e => e.Ratio)
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Ratio, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(x => x.Ratio, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(e => e.Ratio)
                     </div>
+                </div>
                     
-                    @Html.HiddenFor(x => x.ApplicationId)
-                    @Html.HiddenFor(x => x.FeatureId)
-                    @Html.HiddenFor(x => x.IsEnabled)
-                }               
-            </div>
+                @Html.HiddenFor(x => x.ApplicationId)
+                @Html.HiddenFor(x => x.FeatureId)
+                @Html.HiddenFor(x => x.IsEnabled)
+            }               
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="saveFeatureButton">Save changes</button>
-    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" id="saveFeatureButton">Save changes</button>
+</div>
 
 <script>
     $(function () {

@@ -26,14 +26,21 @@ namespace featuregenie.web.Controllers
         [HttpPost]
         public ActionResult _ConfigurationSettings(int id)
         {
-            return PartialView(_configurationRepository.GetAll(id));
+            return PartialView(new ConfigurationSettingsViewModel() { ApplicationId=id, Settings=_configurationRepository.GetAll(id)});
         }
 
         [HttpPost]
         public ActionResult Upsert(ConfigurationSetting setting)
         {
-            _configurationRepository.Update(setting);
-            return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(setting.ApplicationId));
+            if (setting.ConfigurationId > 0)
+            {
+                _configurationRepository.Update(setting);
+            }
+            else
+            {
+                _configurationRepository.Create(setting);
+            }
+            return PartialView("_ConfigurationSettings", new ConfigurationSettingsViewModel() {ApplicationId = setting.ApplicationId, Settings = _configurationRepository.GetAll(setting.ApplicationId)});
         }
 
         public ActionResult Delete(int id)
@@ -41,6 +48,16 @@ namespace featuregenie.web.Controllers
             var applicationId = _configurationRepository.GetApplicationId(id);
             _configurationRepository.Delete(id);
             return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(applicationId));
+        }
+
+        public ActionResult Create(int applicationId)
+        {
+            return PartialView("_ConfigurationSettingModal", new ConfigurationSetting(){ApplicationId = applicationId});
+        }
+
+        public ActionResult Edit(int id)
+        {
+            return PartialView("_ConfigurationSettingModal", _configurationRepository.Get(id));
         }
 
         public ActionResult Details(int id)

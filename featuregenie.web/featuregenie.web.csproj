@@ -163,6 +163,7 @@
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Models\Application.cs" />
     <Compile Include="Models\ConfigurationSetting.cs" />
+    <Compile Include="Models\ConfigurationSettingsViewModel.cs" />
     <Compile Include="Models\Feature.cs" />
     <Compile Include="Models\FeaturesViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
