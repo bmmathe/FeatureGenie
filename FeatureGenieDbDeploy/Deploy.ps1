@@ -1,0 +1,1 @@
+﻿& .\FeatureGenieDbDeploy.exe | Write-Host
