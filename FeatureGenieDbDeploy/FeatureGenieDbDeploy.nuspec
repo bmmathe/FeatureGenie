@@ -2,8 +2,8 @@
 <package >
   <metadata>
     <id>FeatureGenieDbDeploy</id>
-    <version>$version$</version>
-    <title>$title$</title>
+    <version>1.0.0</version>
+    <title>FeatureGenieDbDeploy</title>
     <authors>bmmathe</authors>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This will deploy the database for FeatureGenie.</description>
