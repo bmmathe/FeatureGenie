@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
+    <id>FeatureGenieDbDeploy</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>    
+    <authors>bmmathe</authors>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This will deploy the database for FeatureGenie.</description>
     <copyright>Copyright 2015</copyright>    
