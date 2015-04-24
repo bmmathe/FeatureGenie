@@ -1,5 +1,4 @@
 ﻿@model featuregenie.web.Models.Application
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Create Application</h4>
@@ -33,6 +32,8 @@
 
 <script>
     $(function () {
+        $.validator.unobtrusive.parse($("#newApplicationForm"));
+
         $("#saveApplicationButton").click(function () {
             $("#newApplicationForm").submit();
         });
