@@ -47,7 +47,7 @@ namespace featuregenie.web.Controllers
         {
             var applicationId = _configurationRepository.GetApplicationId(id);
             _configurationRepository.Delete(id);
-            return PartialView("_ConfigurationSettings", _configurationRepository.GetAll(applicationId));
+            return PartialView("_ConfigurationSettings", new ConfigurationSettingsViewModel() { ApplicationId = applicationId, Settings = _configurationRepository.GetAll(applicationId) });
         }
 
         public ActionResult Create(int applicationId)

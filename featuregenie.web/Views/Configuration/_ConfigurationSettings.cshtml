@@ -23,7 +23,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", "Configuration", new { id = item.ConfigurationId }, new { @class = "modal-link" })&nbsp;|&nbsp;
-                        @Html.ActionLink("Delete", "Delete", "Configuration", new { applicationId = item.ApplicationId }, new { @class = "modal-link" })
+                        @Ajax.ActionLink("Delete", "Delete", "Configuration", new { id = item.ConfigurationId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "configuration" })
                     </td>
                 </tr>
             }

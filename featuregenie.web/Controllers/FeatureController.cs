@@ -59,7 +59,7 @@ namespace featuregenie.web.Controllers
         {
             var applicationId = _featureRepository.GetApplicationId(id);
             _featureRepository.Delete(id);
-            return PartialView("_Features", _featureRepository.GetAll(applicationId));
+            return PartialView("_Features", new FeaturesViewModel() { ApplicationId = applicationId, Features = _featureRepository.GetAll(applicationId) });
         }            
 
         protected override void Dispose(bool disposing)

@@ -51,7 +51,7 @@
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", "Feature", new { id = row.FeatureId }, new { @class = "modal-link" })&nbsp;|&nbsp;
-                            @Html.ActionLink("Delete", "Delete", "Feature", new { id = row.FeatureId }, new { @class = "modal-link" })
+                            @Ajax.ActionLink("Delete", "Delete", "Feature", new { id = row.FeatureId }, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "GET", UpdateTargetId = "features"})
                         </td>
                     </tr>
                 }
