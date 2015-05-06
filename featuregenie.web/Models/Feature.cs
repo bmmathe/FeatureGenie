@@ -16,5 +16,12 @@ namespace featuregenie.web.Models
         public DateTime? EndTime { get; set; }
         public decimal? Ratio { get; set; }
         public int ApplicationId { get; set; }
+
+        public Feature()
+        {
+            Name = string.Empty;
+            Description = string.Empty;
+        }
     }
+
 }

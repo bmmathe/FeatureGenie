@@ -40,6 +40,7 @@ namespace featuregenie.web.App_Start
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IUserRepository, FakeUserRepository>();
             container.RegisterType<IConfigurationRepository, ConfigurationRepository>();
+            container.RegisterType<IAuditLogRepository, AuditLogRepository>();
         }
     }
 }

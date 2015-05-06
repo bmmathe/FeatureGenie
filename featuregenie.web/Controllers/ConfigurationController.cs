@@ -11,10 +11,12 @@ namespace featuregenie.web.Controllers
     public class ConfigurationController : Controller
     {
         private readonly IConfigurationRepository _configurationRepository;
-
-        public ConfigurationController(IConfigurationRepository configurationRepository)
+        private readonly IAuditLogRepository _auditLogRepository;
+        
+        public ConfigurationController(IConfigurationRepository configurationRepository, IAuditLogRepository auditLogRepository)
         {
             _configurationRepository = configurationRepository;
+            _auditLogRepository = auditLogRepository;
         }
 
         // GET: Configuration
@@ -32,21 +34,26 @@ namespace featuregenie.web.Controllers
         [HttpPost]
         public ActionResult Upsert(ConfigurationSetting setting)
         {
+            var oldConfigurationSetting = new ConfigurationSetting();
             if (setting.ConfigurationId > 0)
             {
+                oldConfigurationSetting = _configurationRepository.Get(setting.ConfigurationId);
                 _configurationRepository.Update(setting);
             }
             else
             {
-                _configurationRepository.Create(setting);
+                setting.ConfigurationId = _configurationRepository.Create(setting);
             }
+            _auditLogRepository.LogConfigurationAudit(oldConfigurationSetting, setting, User.Identity.Name);
             return PartialView("_ConfigurationSettings", new ConfigurationSettingsViewModel() {ApplicationId = setting.ApplicationId, Settings = _configurationRepository.GetAll(setting.ApplicationId)});
         }
 
         public ActionResult Delete(int id)
         {
             var applicationId = _configurationRepository.GetApplicationId(id);
+            var oldConfigurationSetting = _configurationRepository.Get(id);
             _configurationRepository.Delete(id);
+            _auditLogRepository.LogConfigurationAudit(oldConfigurationSetting, new ConfigurationSetting(), User.Identity.Name);
             return PartialView("_ConfigurationSettings", new ConfigurationSettingsViewModel() { ApplicationId = applicationId, Settings = _configurationRepository.GetAll(applicationId) });
         }
 

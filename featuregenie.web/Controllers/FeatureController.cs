@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using featuregenie.web.Data;
 using featuregenie.web.Models;
 
@@ -7,10 +8,12 @@ namespace featuregenie.web.Controllers
     public class FeatureController : Controller
     {
         private readonly FeaturesRepository _featureRepository;
+        private readonly IAuditLogRepository _auditLogRepository;
 
-        public FeatureController()
+        public FeatureController(IAuditLogRepository auditLogRepository)
         {
             _featureRepository = new FeaturesRepository();
+            _auditLogRepository = auditLogRepository;
         }
         // GET: Feature
         public ActionResult Index()
@@ -38,14 +41,17 @@ namespace featuregenie.web.Controllers
         [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
         public ActionResult Upsert(Feature feature)
         {
+            var oldFeature = new Feature();
             if (feature.FeatureId > 0)
             {
+                oldFeature = _featureRepository.Get(feature.FeatureId);
                 _featureRepository.Update(feature);
             }
             else
             {
-                _featureRepository.Create(feature);                
+                feature.FeatureId = _featureRepository.Create(feature);
             }
+            _auditLogRepository.LogFeatureAudit(oldFeature, feature, User.Identity.Name);
             return PartialView("_Features", new FeaturesViewModel(){ApplicationId = feature.ApplicationId, Features =_featureRepository.GetAll(feature.ApplicationId)});
         }
   
@@ -58,7 +64,9 @@ namespace featuregenie.web.Controllers
         public ActionResult Delete(int id)
         {
             var applicationId = _featureRepository.GetApplicationId(id);
+            var oldFeature = _featureRepository.Get(id);
             _featureRepository.Delete(id);
+            _auditLogRepository.LogFeatureAudit(oldFeature, new Feature(), User.Identity.Name);
             return PartialView("_Features", new FeaturesViewModel() { ApplicationId = applicationId, Features = _featureRepository.GetAll(applicationId) });
         }            
 

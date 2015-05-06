@@ -153,18 +153,22 @@
     <Compile Include="Controllers\FeatureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\ApplicationsRepository.cs" />
+    <Compile Include="Data\AuditLogRepository.cs" />
     <Compile Include="Data\BaseRepository.cs" />
     <Compile Include="Data\ConfigurationRepository.cs" />
     <Compile Include="Data\FeaturesRepository.cs" />
+    <Compile Include="Data\IAuditLogRepository.cs" />
     <Compile Include="Data\IConfigurationRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Models\Application.cs" />
+    <Compile Include="Models\ConfigurationAuditLog.cs" />
     <Compile Include="Models\ConfigurationSetting.cs" />
     <Compile Include="Models\ConfigurationSettingsViewModel.cs" />
     <Compile Include="Models\Feature.cs" />
+    <Compile Include="Models\FeatureAuditLog.cs" />
     <Compile Include="Models\FeaturesViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -214,7 +218,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
