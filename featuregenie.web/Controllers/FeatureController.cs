@@ -26,11 +26,13 @@ namespace featuregenie.web.Controllers
 
         public ActionResult Create(int applicationId)
         {
+            ViewBag.Action = "Create";
             return PartialView("_FeatureModal", new Feature(){ApplicationId = applicationId, IsEnabled = true});
         }
 
         public ActionResult Edit(int id)
         {
+            ViewBag.Action = "Edit";
             return PartialView("_FeatureModal", _featureRepository.Get(id));
         }
 
