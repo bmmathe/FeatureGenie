@@ -1,12 +1,4 @@
-﻿USE [FeatureGenieDB]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
+﻿BEGIN TRANSACTION
 CREATE TABLE [genie].[FeatureAuditLog](
 	[FeatureAuditId] [int] IDENTITY(1,1) NOT NULL,
 	[FeatureId] [int] NULL,
@@ -21,14 +13,9 @@ CREATE TABLE [genie].[FeatureAuditLog](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
+ALTER TABLE genie.FeatureAuditLog ADD CONSTRAINT
+	DF_FeatureAuditLog_CreatedDate DEFAULT getdate() FOR CreatedDate
 
-ALTER TABLE [genie].[FeatureAuditLog] CHECK CONSTRAINT [FK_FeatureAuditLog_FeatureAuditLog]
-GO
-
-ALTER TABLE [genie].[FeatureAuditLog] ADD CONSTRAINT CREATED_DATE DEFAULT GETDATE() FOR CreatedDate
-GO
---next table
 CREATE TABLE [genie].[ConfigurationAuditLog](
 	[ConfigurationAuditId] [int] IDENTITY(1,1) NOT NULL,
 	[ConfigurationId] [int] NULL,
@@ -43,10 +30,5 @@ CREATE TABLE [genie].[ConfigurationAuditLog](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
-
-ALTER TABLE [genie].[ConfigurationAuditLog] CHECK CONSTRAINT [FK_ConfigurationAuditLog_ConfigurationAuditLog]
-GO
-
-ALTER TABLE [genie].[ConfigurationAuditLog] ADD CONSTRAINT CREATED_DATE DEFAULT GETDATE() FOR CreatedDate
-GO
+ALTER TABLE [genie].[ConfigurationAuditLog] ADD CONSTRAINT DF_ConfigurationAuditLog_CreatedDate DEFAULT GETDATE() FOR CreatedDate
+COMMIT
