@@ -59,11 +59,13 @@ namespace featuregenie.web.Controllers
 
         public ActionResult Create(int applicationId)
         {
+            ViewBag.Action = "Create";
             return PartialView("_ConfigurationSettingModal", new ConfigurationSetting(){ApplicationId = applicationId});
         }
 
         public ActionResult Edit(int id)
         {
+            ViewBag.Action = "Edit";
             return PartialView("_ConfigurationSettingModal", _configurationRepository.Get(id));
         }
 
