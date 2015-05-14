@@ -11,8 +11,11 @@ namespace featuregenie.web.Data
         {
             get
             {
-                _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FeatureGenieDb"].ConnectionString);
-                _connection.Open();
+                if (_connection == null)
+                {
+                    _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FeatureGenieDb"].ConnectionString);
+                    _connection.Open();
+                }
                 return _connection;
             }
             set { _connection = value; }

@@ -25,7 +25,7 @@ namespace FeatureGenieDbDeploy
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(result.Error);
                 Console.ResetColor();
-                //Console.ReadLine();
+                Console.ReadLine();
                 return -1;
             }
 

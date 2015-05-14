@@ -5,7 +5,14 @@ using featuregenie.web.Models;
 
 namespace featuregenie.web.Data
 {
-    public class ApplicationsRepository : BaseRepository
+    public interface IApplicationsRepository
+    {
+        List<Application> GetAll();
+        void Add(Application application);
+        void Dispose();
+    }
+
+    public class ApplicationsRepository : BaseRepository, IApplicationsRepository
     {
         public List<Application> GetAll()
         {

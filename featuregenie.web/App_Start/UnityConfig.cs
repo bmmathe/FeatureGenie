@@ -41,6 +41,8 @@ namespace featuregenie.web.App_Start
             container.RegisterType<IUserRepository, FakeUserRepository>();
             container.RegisterType<IConfigurationRepository, ConfigurationRepository>();
             container.RegisterType<IAuditLogRepository, AuditLogRepository>();
+            container.RegisterType<IApplicationsRepository, ApplicationsRepository>();
+            container.RegisterType<IFeatureRepository, FeatureRepository>();
         }
     }
 }

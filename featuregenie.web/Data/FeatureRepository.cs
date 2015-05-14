@@ -5,7 +5,18 @@ using featuregenie.web.Models;
 
 namespace featuregenie.web.Data
 {
-    public class FeaturesRepository : BaseRepository
+    public interface IFeatureRepository
+    {
+        List<Feature> GetAll(int applicationId);
+        Feature Get(int id);
+        int Create(Feature feature);
+        void Update(Feature feature);
+        void Delete(int id);
+        int GetApplicationId(int featureId);
+        void Dispose();
+    }
+
+    public class FeatureRepository : BaseRepository, IFeatureRepository
     {
         public List<Feature> GetAll(int applicationId)
         {

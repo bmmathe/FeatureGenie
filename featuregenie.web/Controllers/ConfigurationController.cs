@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using featuregenie.web.Data;
 using featuregenie.web.Models;
 
@@ -19,19 +15,15 @@ namespace featuregenie.web.Controllers
             _auditLogRepository = auditLogRepository;
         }
 
-        // GET: Configuration
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieRead)]
         public ActionResult _ConfigurationSettings(int id)
         {
             return PartialView(new ConfigurationSettingsViewModel() { ApplicationId=id, Settings=_configurationRepository.GetAll(id)});
         }
 
         [HttpPost]
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult Upsert(ConfigurationSetting setting)
         {
             var oldConfigurationSetting = new ConfigurationSetting();
@@ -48,6 +40,7 @@ namespace featuregenie.web.Controllers
             return PartialView("_ConfigurationSettings", new ConfigurationSettingsViewModel() {ApplicationId = setting.ApplicationId, Settings = _configurationRepository.GetAll(setting.ApplicationId)});
         }
 
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult Delete(int id)
         {
             var applicationId = _configurationRepository.GetApplicationId(id);
@@ -57,16 +50,21 @@ namespace featuregenie.web.Controllers
             return PartialView("_ConfigurationSettings", new ConfigurationSettingsViewModel() { ApplicationId = applicationId, Settings = _configurationRepository.GetAll(applicationId) });
         }
 
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult Create(int applicationId)
         {
+            ViewBag.Action = "Create";
             return PartialView("_ConfigurationSettingModal", new ConfigurationSetting(){ApplicationId = applicationId});
         }
 
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult Edit(int id)
         {
+            ViewBag.Action = "Edit";
             return PartialView("_ConfigurationSettingModal", _configurationRepository.Get(id));
         }
 
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieRead)]
         public ActionResult Details(int id)
         {
             return Json(_configurationRepository.Get(id), JsonRequestBehavior.AllowGet);
@@ -75,7 +73,10 @@ namespace featuregenie.web.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 _configurationRepository.Dispose();
+                _auditLogRepository.Dispose();
+            }
             base.Dispose(disposing);
         }
     }

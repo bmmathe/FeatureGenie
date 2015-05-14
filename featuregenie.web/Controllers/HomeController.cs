@@ -8,16 +8,16 @@ namespace featuregenie.web.Controllers
 {    
     public class HomeController : Controller
     {
-        private readonly FeaturesRepository _featureRepository;
-        private readonly ApplicationsRepository _applicationRepository;
+        private readonly IFeatureRepository _featureRepository;
+        private readonly IApplicationsRepository _applicationRepository;
 
-        public HomeController()
+        public HomeController(IFeatureRepository featureRepository, IApplicationsRepository applicationsRepository)
         {
-            _featureRepository = new FeaturesRepository(); 
-            _applicationRepository = new ApplicationsRepository();            
+            _featureRepository = featureRepository; 
+            _applicationRepository = applicationsRepository;            
         }
 
-        [AuthorizeUser(AccessLevel = "FeatureGenie Read")]
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieRead)]
         public ActionResult Index()
         {
             var model = new HomeViewModel();
@@ -28,7 +28,7 @@ namespace featuregenie.web.Controllers
         
         
         [HttpPost]
-        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult CreateApplication(Application model)
         {
             _applicationRepository.Add(model);
@@ -40,13 +40,7 @@ namespace featuregenie.web.Controllers
             };
             
             return PartialView("_Applications", viewModel);
-        }
-
-        [HttpPost]
-        public ActionResult _Features(int id)
-        {
-            return PartialView(_featureRepository.GetAll(id));
-        }
+        }       
 
         public ActionResult _ApplicationModal()
         {
@@ -55,8 +49,11 @@ namespace featuregenie.web.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
+            {
                 _featureRepository.Dispose();
+                _applicationRepository.Dispose();
+            }
             base.Dispose(disposing);
         }
     }

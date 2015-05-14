@@ -28,7 +28,7 @@ AND pr.begindate < GETDATE() AND pr.enddate > GETDATE()", new { UserId = usernam
     {
         public List<string> GetRoles(string username)
         {
-            var users = new List<string> { "FeatureGenie Read", "FeatureGenie Admin" };
+            var users = new List<string> { "FeatureGenie Read" };
             return users;
         }
     }
