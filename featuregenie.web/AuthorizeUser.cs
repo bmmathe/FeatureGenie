@@ -6,7 +6,7 @@ namespace featuregenie.web
     public class AuthorizeUserAttribute : AuthorizeAttribute
     {        
         public IUserRepository UserRepository { get; set; }
-        public string AccessLevel { get; set; }
+        public FeatureGenieRole AccessLevel { get; set; }
 
         public AuthorizeUserAttribute()
         {
@@ -21,11 +21,18 @@ namespace featuregenie.web
                 return false;
             }
 
-            if (UserRepository.GetRoles(httpContext.User.Identity.Name).Contains(AccessLevel))
+            if (UserRepository.GetRoles(httpContext.User.Identity.Name).Contains("FeatureGenie Admin"))
             {
                 return true;
             }
-            return false;
+
+            FeatureGenieRole userRole = FeatureGenieRole.Unauthorized;
+            
+            if (UserRepository.GetRoles(httpContext.User.Identity.Name).Contains("FeatureGenie Read"))
+            {
+                userRole = FeatureGenieRole.FeatureGenieRead;
+            }
+            return userRole == AccessLevel;
         }       
     }
 }

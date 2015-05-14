@@ -7,32 +7,30 @@ namespace featuregenie.web.Controllers
 { 
     public class FeatureController : Controller
     {
-        private readonly FeaturesRepository _featureRepository;
+        private readonly IFeatureRepository _featureRepository;
         private readonly IAuditLogRepository _auditLogRepository;
 
-        public FeatureController(IAuditLogRepository auditLogRepository)
+        public FeatureController(IFeatureRepository featureRepository, IAuditLogRepository auditLogRepository)
         {
-            _featureRepository = new FeaturesRepository();
+            _featureRepository = featureRepository;
             _auditLogRepository = auditLogRepository;
-        }
-        // GET: Feature
-        public ActionResult Index()
-        {
-            return View();
         }
 
         [HttpPost]
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieRead)]
         public ActionResult _Features(int id)
         {
             return PartialView(new FeaturesViewModel(){Features=_featureRepository.GetAll(id), ApplicationId = id});
         }
 
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult Create(int applicationId)
         {
             ViewBag.Action = "Create";
             return PartialView("_FeatureModal", new Feature(){ApplicationId = applicationId, IsEnabled = true});
         }
 
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult Edit(int id)
         {
             ViewBag.Action = "Edit";
@@ -40,7 +38,7 @@ namespace featuregenie.web.Controllers
         }
 
         [HttpPost]
-        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult Upsert(Feature feature)
         {
             var oldFeature = new Feature();
@@ -56,13 +54,14 @@ namespace featuregenie.web.Controllers
             _auditLogRepository.LogFeatureAudit(oldFeature, feature, User.Identity.Name);
             return PartialView("_Features", new FeaturesViewModel(){ApplicationId = feature.ApplicationId, Features =_featureRepository.GetAll(feature.ApplicationId)});
         }
-  
+
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieRead)]
         public ActionResult Details(int id)
         {
             return Json(_featureRepository.Get(id), JsonRequestBehavior.AllowGet);
         }
 
-        [AuthorizeUser(AccessLevel = "FeatureGenie Admin")]
+        [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult Delete(int id)
         {
             var applicationId = _featureRepository.GetApplicationId(id);
@@ -75,7 +74,10 @@ namespace featuregenie.web.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 _featureRepository.Dispose();
+                _auditLogRepository.Dispose();
+            }
             base.Dispose(disposing);
         }
     }
