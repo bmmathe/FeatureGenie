@@ -1,7 +1,7 @@
 using System;
+using System.Configuration;
 using featuregenie.web.Data;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 
 namespace featuregenie.web.App_Start
 {
@@ -38,7 +38,10 @@ namespace featuregenie.web.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<IUserRepository, FakeUserRepository>();
+            if (Convert.ToBoolean(ConfigurationManager.AppSettings["FakeUserRepository"]))
+                container.RegisterType<IUserRepository, FakeUserRepository>();
+            else
+                container.RegisterType<IUserRepository, UserRepository>();
             container.RegisterType<IConfigurationRepository, ConfigurationRepository>();
             container.RegisterType<IAuditLogRepository, AuditLogRepository>();
             container.RegisterType<IApplicationsRepository, ApplicationsRepository>();
