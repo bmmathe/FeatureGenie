@@ -27,6 +27,11 @@ namespace featuregenie.web.Data
             return Db.Query<Feature>(@"SELECT * FROM genie.Feature WHERE FeatureId = @FeatureId", new { FeatureId = id }).First();
         }
 
+        public Feature Get(int applicationId, string featureName)
+        {
+            return Db.Query<Feature>(@"SELECT * FROM genie.Feature WHERE ApplicationId = @ApplicationId AND Name = @FeatureName", new {ApplicationId = applicationId, FeatureName = featureName}).FirstOrDefault();
+        }
+
         public int Create(Feature feature)
         {
             string sql = @"DECLARE @OutputTbl TABLE (ID INT) INSERT INTO genie.Feature (ApplicationId, Name, [Description], IsEnabled, StartTime, EndTime, Ratio) OUTPUT INSERTED.FeatureId INTO @OutputTbl(ID) VALUES (@ApplicationId, @Name, @Description, @IsEnabled, @StartTime, @EndTime, @Ratio) SELECT * FROM @OutputTbl";

@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using featuregenie.web.Data;
 using featuregenie.web.Models;
 
@@ -19,6 +20,24 @@ namespace featuregenie.web.Controllers.api
         public object Get(int id)
         {
             return _repository.Get(id);
+        }
+
+        [HttpGet]
+        [Route("IsFeatureEnabled/{applicationId:int}/{featureName}")]
+        public bool IsFeatureEnabled(int applicationId, string featureName)
+        {
+            var feature = _repository.Get(applicationId, featureName);
+            if (feature.IsEnabled)
+            {
+                if (feature.StartTime.HasValue && feature.StartTime >= DateTime.Now)
+                    return false;
+
+                if (feature.EndTime.HasValue && feature.EndTime <= DateTime.Now)
+                    return false;
+
+                return true;
+            }
+            return false;
         }
 
         [HttpPost]

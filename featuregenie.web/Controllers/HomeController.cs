@@ -31,7 +31,7 @@ namespace featuregenie.web.Controllers
         [AuthorizeUser(AccessLevel = FeatureGenieRole.FeatureGenieAdmin)]
         public ActionResult CreateApplication(Application model)
         {
-            _applicationRepository.Add(model);
+            _applicationRepository.Create(model);
             var applications = _applicationRepository.GetAll();
             var viewModel = new HomeViewModel()
             {

@@ -8,7 +8,7 @@ namespace featuregenie.web.Data
     public interface IApplicationsRepository
     {
         List<Application> GetAll();
-        void Add(Application application);
+        void Create(Application application);
         void Dispose();
     }
 
@@ -19,10 +19,15 @@ namespace featuregenie.web.Data
             return Db.Query<Application>(@"SELECT ApplicationId, Name FROM genie.Application").ToList();
         }
 
-        public void Add(Application application)
+        public void Create(Application application)
         {
             Db.Execute(@"INSERT INTO [genie].[Application] ([Name], [Description]) VALUES (@Name, @Description)",
                 new {application.Name, application.Description});
+        }
+
+        public Application Get(string applicationName)
+        {
+            return Db.Query<Application>(@"SELECT * FROM genie.Application WHERE Name = @Name", new {Name = applicationName}).FirstOrDefault();
         }
     }
 }

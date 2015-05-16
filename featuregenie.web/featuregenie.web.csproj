@@ -148,6 +148,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AuthorizeUser.cs" />
+    <Compile Include="Controllers\api\ApplicationApiController.cs" />
     <Compile Include="Controllers\api\ConfigurationApiController.cs" />
     <Compile Include="Controllers\api\FeatureApiController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
