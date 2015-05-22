@@ -14,20 +14,10 @@ namespace featuregenie.client
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["FeatureGenieBaseUri"]);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.GetAsync(string.Format("api/Feature/{0}/{1}", applicationId, featureName)).Result;
+                var response = client.GetAsync(string.Format("api/Feature/IsFeatureEnabled/{0}/{1}", applicationId, featureName)).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    var feature = response.Content.ReadAsAsync<Feature>().Result;
-                    if (feature.IsEnabled)
-                    {
-                        if (feature.StartTime.HasValue && feature.StartTime >= DateTime.Now)                        
-                            return false;                        
-
-                        if (feature.EndTime.HasValue && feature.EndTime <= DateTime.Now)
-                            return false;
-
-                        return true;
-                    }
+                    return response.Content.ReadAsAsync<bool>().Result;                    
                 }
             }
 

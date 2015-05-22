@@ -11,6 +11,12 @@ namespace featuregenie.web.Data
         {
             return Db.Query<ConfigurationSetting>(@"SELECT * FROM genie.[Configuration] WHERE ApplicationId = @ApplicationId", new { ApplicationId = applicationId }).ToList();
         }
+
+        public List<ConfigurationSetting> GetAll(string applicationName)
+        {
+            return Db.Query<ConfigurationSetting>(@"SELECT * FROM genie.[Configuration] WHERE Name = @ApplicationName", new { ApplicationId = applicationName}).ToList();
+        }
+
         public ConfigurationSetting Get(int id)
         {
             return Db.Query<ConfigurationSetting>(@"SELECT * FROM genie.[Configuration] WHERE ConfigurationId = @ConfigurationId", new { ConfigurationId = id }).First();

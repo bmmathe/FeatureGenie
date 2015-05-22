@@ -21,10 +21,16 @@ namespace featuregenie.web.Controllers.api
             return _repository.Get(id);
         }
 
-        [Route("{applicationId:int}")]
+        [Route("AllSettings/{applicationId:int}")]
         public object GetAll(int applicationId)
         {
             return _repository.GetAll(applicationId);
+        }
+
+        [Route("AllSettings/{applicationId:string}")]
+        public object GetAll(string applicationName)
+        {
+            return _repository.GetAll(applicationName);
         }
 
         [HttpPost]

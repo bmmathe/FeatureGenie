@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationSettingsManager.cs" />
+    <Compile Include="ConfigurationSetting.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="FeatureManager.cs" />
     <Compile Include="IFeatureManager.cs" />
