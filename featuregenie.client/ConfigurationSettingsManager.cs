@@ -6,12 +6,6 @@ using System.Net.Http.Headers;
 
 namespace featuregenie.client
 {
-    public interface IConfigurationSettingsManager
-    {
-        IEnumerable<ConfigurationSetting> GetAllSettings(int applicationId);
-        IEnumerable<ConfigurationSetting> GetAllSettings(string applicationName);
-    }
-
     public class ConfigurationSettingsManager : IConfigurationSettingsManager
     {
         public IEnumerable<ConfigurationSetting> GetAllSettings(int applicationId)

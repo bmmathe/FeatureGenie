@@ -62,6 +62,7 @@
     <Compile Include="ConfigurationSetting.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="FeatureManager.cs" />
+    <Compile Include="IConfigurationSettingsManager.cs" />
     <Compile Include="IFeatureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
