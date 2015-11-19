@@ -4,7 +4,6 @@ namespace featuregenie.client
 {
     public interface IConfigurationSettingsManager
     {
-        IEnumerable<ConfigurationSetting> GetAllSettings(int applicationId);
-        IEnumerable<ConfigurationSetting> GetAllSettings(string applicationName);
+        string GetAllSettings(string applicationName);
     }
 }

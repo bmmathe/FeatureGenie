@@ -1,27 +1,34 @@
 ﻿using System;
 using System.Configuration;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Linq;
+using FeatureGenieService.ServiceModel;
+using ServiceStack;
 
 namespace featuregenie.client
 {
     public class FeatureManager : IFeatureManager
     {
-        public bool IsFeatureEnabled(int applicationId, string featureName)
+        public bool IsFeatureEnabled(string applicationName, string featureName)
         {
-            using (var client = new HttpClient())
+            var enabled = false;
+            using (var serviceClient = new JsonServiceClient(ConfigurationManager.AppSettings["FeatureGenieBaseUri"]))
             {
-                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["FeatureGenieBaseUri"]);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var response = client.GetAsync(string.Format("api/Feature/IsFeatureEnabled/{0}/{1}", applicationId, featureName)).Result;
-                if (response.IsSuccessStatusCode)
+                var features = serviceClient.Get<FeaturesResponse>(new Features() { ApplicationName = applicationName });
+                var feature = features.Features.SingleOrDefault(f => f.FeatureName == featureName);
+                if (feature != null && feature.IsEnabled)
                 {
-                    return response.Content.ReadAsAsync<bool>().Result;                    
+                    enabled = true;
+
+                    if (feature.StartTime.HasValue && feature.StartTime >= DateTime.Now)
+                        enabled = false;
+
+                    if (feature.EndTime.HasValue && feature.EndTime <= DateTime.Now)
+                        enabled = false;
+
                 }
             }
 
-            return false;
+            return enabled;
         }
     }
 }

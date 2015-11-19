@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("featuregenie.client")]
-[assembly: AssemblyDescription("Client to connect to the FeatureGenie API.")]
+[assembly: AssemblyTitle("FeatureGenieService.Tests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("featuregenie.client")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("FeatureGenieService.Tests")]
+[assembly: AssemblyCopyright("Copyright © 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4f9ae872-e29f-4575-aa65-2275ae08de08")]
+[assembly: Guid("75e12802-a6bd-4f6e-b39d-3279c34f28b3")]
 
 // Version information for an assembly consists of the following four values:
 //
